@@ -16,8 +16,8 @@ To play any of the games:
 
 1. Clone this repository
    ```
-   git clone https://github.com/your-username/arcade-games.git
-   cd arcade-games
+   git clone https://github.com/jpatel3/ArcadeGames.git
+   cd ArcadeGames
    ```
 
 2. Navigate to the game directory you want to play
