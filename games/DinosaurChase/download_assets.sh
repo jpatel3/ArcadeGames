@@ -11,7 +11,7 @@ curl -o assets/images/jungle-background.jpg https://img.freepik.com/free-vector/
 curl -o assets/images/dinosaur.png https://cdn-icons-png.flaticon.com/512/3196/3196017.png
 
 # Download favicon
-curl -o assets/images/favicon.ico https://cdn-icons-png.flaticon.com/512/2236/2236839.png
+curl -o assets/images/favicon.ico https://cdn-icons-png.flaticon.com/512/686/686589.png
 
 # Download token images
 curl -o assets/images/tokens/token-1.png https://cdn-icons-png.flaticon.com/512/6198/6198527.png
