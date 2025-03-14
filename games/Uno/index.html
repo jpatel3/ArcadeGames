@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uno Card Game</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ff5555">
+    <meta name="description" content="A fun browser-based Uno card game where 2-4 players take turns matching cards by color or number.">
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KZFSM3MMX2"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-KZFSM3MMX2', {
+            send_page_view: true,
+            cookie_flags: 'SameSite=None;Secure'
+        });
+    </script>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Uno Card Game</h1>
+
+        <!-- Audio Controls -->
+        <div class="audio-controls">
+            <div id="music-toggle" class="audio-btn">
+                <i class="fas fa-music"></i>
+            </div>
+            <div id="sound-toggle" class="audio-btn">
+                <i class="fas fa-volume-up"></i>
+            </div>
+        </div>
+
+        <!-- Audio Elements -->
+        <audio id="background-music" loop>
+            <source src="assets/sounds/background-music.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="card-deal-sound">
+            <source src="assets/sounds/card-deal.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="card-shuffle-sound">
+            <source src="assets/sounds/card-shuffle.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="uno-call-sound">
+            <source src="assets/sounds/uno-call.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="game-win-sound">
+            <source src="assets/sounds/game-win.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="draw-card-sound">
+            <source src="assets/sounds/draw-card.mp3" type="audio/mpeg">
+        </audio>
+
+        <!-- Start Screen -->
+        <div id="start-screen" class="start-screen">
+            <h2>Game Setup</h2>
+            <div class="player-setup">
+                <div class="player-count">
+                    <label for="player-count">Number of Players:</label>
+                    <select id="player-count">
+                        <option value="2">2 Players</option>
+                        <option value="3">3 Players</option>
+                        <option value="4">4 Players</option>
+                    </select>
+                </div>
+
+                <div class="player-inputs">
+                    <div class="player-input" id="player1-input">
+                        <label for="player1-name">Player 1:</label>
+                        <input type="text" id="player1-name" placeholder="Enter name" maxlength="15">
+                        <div class="color-selection">
+                            <div class="color-option red selected" data-color="red"></div>
+                            <div class="color-option blue" data-color="blue"></div>
+                            <div class="color-option green" data-color="green"></div>
+                            <div class="color-option yellow" data-color="yellow"></div>
+                        </div>
+                    </div>
+
+                    <div class="player-input" id="player2-input">
+                        <label for="player2-name">Player 2:</label>
+                        <input type="text" id="player2-name" placeholder="Enter name" maxlength="15">
+                        <div class="color-selection">
+                            <div class="color-option red" data-color="red"></div>
+                            <div class="color-option blue selected" data-color="blue"></div>
+                            <div class="color-option green" data-color="green"></div>
+                            <div class="color-option yellow" data-color="yellow"></div>
+                        </div>
+                    </div>
+
+                    <div class="player-input" id="player3-input">
+                        <label for="player3-name">Player 3:</label>
+                        <input type="text" id="player3-name" placeholder="Enter name" maxlength="15">
+                        <div class="color-selection">
+                            <div class="color-option red" data-color="red"></div>
+                            <div class="color-option blue" data-color="blue"></div>
+                            <div class="color-option green selected" data-color="green"></div>
+                            <div class="color-option yellow" data-color="yellow"></div>
+                        </div>
+                    </div>
+
+                    <div class="player-input" id="player4-input">
+                        <label for="player4-name">Player 4:</label>
+                        <input type="text" id="player4-name" placeholder="Enter name" maxlength="15">
+                        <div class="color-selection">
+                            <div class="color-option red" data-color="red"></div>
+                            <div class="color-option blue" data-color="blue"></div>
+                            <div class="color-option green" data-color="green"></div>
+                            <div class="color-option yellow selected" data-color="yellow"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button id="start-game-button">Start Game</button>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="game-screen" class="game-screen hidden">
+            <div class="game-board">
+                <!-- Opponent Areas -->
+                <div class="opponents-container">
+                    <div class="opponent" id="opponent-1">
+                        <div class="player-info">
+                            <div class="player-name">Player 2</div>
+                            <div class="card-count">7 cards</div>
+                        </div>
+                        <div class="opponent-cards"></div>
+                    </div>
+                    <div class="opponent" id="opponent-2">
+                        <div class="player-info">
+                            <div class="player-name">Player 3</div>
+                            <div class="card-count">7 cards</div>
+                        </div>
+                        <div class="opponent-cards"></div>
+                    </div>
+                    <div class="opponent" id="opponent-3">
+                        <div class="player-info">
+                            <div class="player-name">Player 4</div>
+                            <div class="card-count">7 cards</div>
+                        </div>
+                        <div class="opponent-cards"></div>
+                    </div>
+                </div>
+
+                <!-- Center Area with Draw Pile and Discard Pile -->
+                <div class="center-area">
+                    <div class="draw-pile">
+                        <div class="card card-back"></div>
+                    </div>
+                    <div class="discard-pile"></div>
+                    <div class="current-color">
+                        <div class="color-indicator"></div>
+                    </div>
+                    <div class="direction-indicator">
+                        <i class="fas fa-arrow-right"></i>
+                    </div>
+                </div>
+
+                <!-- Player's Hand -->
+                <div class="player-area">
+                    <div class="player-info">
+                        <div class="player-name">Player 1</div>
+                        <div class="card-count">7 cards</div>
+                    </div>
+                    <div class="player-hand"></div>
+                    <div class="action-buttons">
+                        <button id="draw-card-button">Draw Card</button>
+                        <button id="call-uno-button">Call UNO!</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="game-controls">
+                <div class="game-message" id="game-message"></div>
+                <button id="restart-button">Restart Game</button>
+            </div>
+
+            <!-- Wild Color Selection Modal -->
+            <div class="color-selection-modal hidden" id="color-selection-modal">
+                <div class="modal-content">
+                    <h3>Choose a Color</h3>
+                    <div class="color-options">
+                        <div class="color-option red" data-color="red"></div>
+                        <div class="color-option blue" data-color="blue"></div>
+                        <div class="color-option green" data-color="green"></div>
+                        <div class="color-option yellow" data-color="yellow"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Confetti container for win animation -->
+        <div id="confetti-container" class="confetti-container"></div>
+    </div>
+
+    <script src="game.js"></script>
+    <script>
+        // Register service worker for offline support
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('ServiceWorker registration failed: ', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>

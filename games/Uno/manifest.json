@@ -1,0 +1,25 @@
+{
+  "name": "Uno Card Game",
+  "short_name": "Uno",
+  "description": "A fun browser-based Uno card game where 2-4 players take turns matching cards by color or number.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#1a4d2e",
+  "theme_color": "#ff5555",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "assets/images/favicon.ico",
+      "sizes": "48x48",
+      "type": "image/x-icon"
+    }
+  ],
+  "categories": ["games", "entertainment", "card games"],
+  "screenshots": [
+    {
+      "src": "assets/images/table-background.jpg",
+      "sizes": "1280x720",
+      "type": "image/jpeg"
+    }
+  ]
+}

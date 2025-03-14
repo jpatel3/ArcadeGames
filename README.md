@@ -10,6 +10,10 @@ A fun board game where players race to escape a T-Rex by moving along a 20-space
 
 ![Dinosaur Chase Game Screenshot](games/DinosaurChase/assets/images/game-screenshot.jpg)
 
+### [Uno Card Game](games/Uno/)
+
+A classic card game where 2-4 players take turns matching cards by color or number. Be the first to get rid of all your cards to win!
+
 ## 🚀 Getting Started
 
 To play any of the games:
@@ -45,6 +49,12 @@ To play any of the games:
 arcade-games/
 ├── games/                  # Directory containing all games
 │   ├── DinosaurChase/      # Dinosaur Chase Game
+│   │   ├── index.html      # Game HTML file
+│   │   ├── styles.css      # Game CSS styles
+│   │   ├── game.js         # Game JavaScript logic
+│   │   ├── assets/         # Game assets
+│   │   └── ...             # Other game-specific files
+│   ├── Uno/                # Uno Card Game
 │   │   ├── index.html      # Game HTML file
 │   │   ├── styles.css      # Game CSS styles
 │   │   ├── game.js         # Game JavaScript logic

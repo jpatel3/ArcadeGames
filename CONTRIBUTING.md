@@ -66,6 +66,13 @@ If you want to add a new game to the collection:
 - Ensure the T-Rex movement logic remains consistent
 - Test any changes to the dice rolling or token selection features thoroughly
 
+### Uno Card Game
+- Maintain the standard Uno rules (matching colors or values)
+- Ensure special cards (skip, reverse, draw two, wild) function correctly
+- Test the game with different player counts (2-4 players)
+- Verify that the AI player logic makes reasonable decisions
+- Ensure the UI updates correctly after each action
+
 ## License
 
 By contributing to this project, you agree that your contributions will be licensed under the project's MIT License. 
