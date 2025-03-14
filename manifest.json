@@ -1,0 +1,16 @@
+{
+  "name": "Arcade Games Collection",
+  "short_name": "Arcade Games",
+  "description": "A collection of fun browser-based games built with HTML, CSS, and JavaScript",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#121212",
+  "theme_color": "#4CAF50",
+  "icons": [
+    {
+      "src": "./games/DinosaurChase/assets/images/favicon.ico",
+      "sizes": "64x64",
+      "type": "image/x-icon"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "name": "arcade-games",
+  "version": "1.0.0",
+  "description": "A collection of fun browser-based games built with HTML, CSS, and JavaScript",
+  "main": "index.html",
+  "scripts": {
+    "start": "serve .",
+    "start:dinosaur": "serve games/DinosaurChase",
+    "download-assets:dinosaur": "cd games/DinosaurChase && ./download_assets.sh",
+    "lint": "eslint . --ext .js",
+    "lint:fix": "eslint . --ext .js --fix",
+    "validate": "html-validate games/**/index.html"
+  },
+  "keywords": [
+    "games",
+    "arcade",
+    "browser-games",
+    "javascript",
+    "html5",
+    "css3"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^8.42.0",
+    "eslint-config-standard": "^17.1.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^16.0.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "html-validate": "^8.0.5",
+    "serve": "^14.2.0"
+  }
+}

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arcade Games Collection</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4CAF50">
+    <meta name="description" content="A collection of fun browser-based games built with HTML, CSS, and JavaScript">
+    <link rel="icon" href="games/DinosaurChase/assets/images/favicon.ico" type="image/x-icon">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #121212;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            color: #f5f5f5;
+        }
+
+        p.subtitle {
+            font-size: 1.2rem;
+            color: #aaa;
+            margin-bottom: 30px;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .game-card {
+            background-color: #1e1e1e;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .game-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .game-info {
+            padding: 20px;
+        }
+
+        .game-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #f5f5f5;
+        }
+
+        .game-description {
+            color: #aaa;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .play-button {
+            display: inline-block;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+        }
+
+        .play-button:hover {
+            background-color: #45a049;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #aaa;
+        }
+
+        footer a {
+            color: #4CAF50;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Arcade Games Collection</h1>
+            <p class="subtitle">A collection of fun browser-based games built with HTML, CSS, and JavaScript</p>
+        </header>
+
+        <div class="games-grid">
+            <!-- Dinosaur Chase Game -->
+            <div class="game-card">
+                <img src="games/DinosaurChase/assets/images/game-screenshot.jpg" alt="Dinosaur Chase Game" class="game-image">
+                <div class="game-info">
+                    <h2 class="game-title">Dinosaur Chase Game</h2>
+                    <p class="game-description">Race to escape a T-Rex by moving along a 20-space path from the Jungle to the Safe Cave.</p>
+                    <a href="games/DinosaurChase/index.html" class="play-button">Play Now</a>
+                </div>
+            </div>
+
+            <!-- Placeholder for future games -->
+            <div class="game-card" style="opacity: 0.5;">
+                <div style="height: 200px; background-color: #333; display: flex; justify-content: center; align-items: center;">
+                    <span style="font-size: 3rem;">?</span>
+                </div>
+                <div class="game-info">
+                    <h2 class="game-title">Coming Soon</h2>
+                    <p class="game-description">More exciting games are on the way! Stay tuned for updates.</p>
+                    <a href="#" class="play-button" style="background-color: #777; cursor: not-allowed;">Coming Soon</a>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2023 Arcade Games Collection. All games are open source under the <a href="LICENSE">MIT License</a>.</p>
+            <p>Want to contribute? Check out our <a href="https://github.com/your-username/arcade-games">GitHub repository</a>.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Register service worker for offline support
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    })
+                    .catch(error => {
+                        console.log('ServiceWorker registration failed: ', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>

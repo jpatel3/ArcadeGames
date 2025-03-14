@@ -1,0 +1,16 @@
+{
+  "name": "Dinosaur Chase Game",
+  "short_name": "Dino Chase",
+  "description": "A fun board game where players race to escape a T-Rex",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#1a4d2e",
+  "theme_color": "#ffcc00",
+  "icons": [
+    {
+      "src": "./assets/images/favicon.ico",
+      "sizes": "64x64",
+      "type": "image/x-icon"
+    }
+  ]
+}

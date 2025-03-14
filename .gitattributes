@@ -1,0 +1,21 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# JS and CSS files should be treated as text
+*.js text
+*.css text
+*.html text
+*.md text
+*.json text
+
+# Denote all files that are truly binary and should not be modified
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.mp3 binary
+*.wav binary
+
+# Exclude files from GitHub's language statistics
+download_assets.sh linguist-vendored

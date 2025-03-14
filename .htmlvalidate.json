@@ -1,0 +1,12 @@
+{
+  "extends": [
+    "html-validate:recommended"
+  ],
+  "rules": {
+    "element-required-attributes": "error",
+    "no-trailing-whitespace": "error",
+    "void-style": ["error", {
+      "style": "selfclosing"
+    }]
+  }
+} 
