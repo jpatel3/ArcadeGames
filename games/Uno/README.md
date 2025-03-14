@@ -2,7 +2,13 @@
 
 A classic card game where 2-4 players take turns matching cards by color or number. Be the first to get rid of all your cards to win!
 
-![Uno Game](assets/images/card-back.png)
+<div align="center">
+  <img src="assets/images/cards/red-reverse.png" width="100" style="margin-right: -30px">
+  <img src="assets/images/cards/blue-skip.png" width="100" style="margin-right: -30px">
+  <img src="assets/images/cards/green-draw-two.png" width="100" style="margin-right: -30px">
+  <img src="assets/images/cards/yellow-0.png" width="100" style="margin-right: -30px">
+  <img src="assets/images/cards/wild.png" width="100">
+</div>
 
 ## 🎮 How to Play
 

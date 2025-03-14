@@ -29,6 +29,9 @@ curl -o assets/images/cards/wild-draw-four.png https://cdn-icons-png.flaticon.co
 # Download game table background
 curl -o assets/images/table-background.jpg https://img.freepik.com/free-photo/green-poker-table-background_95678-7.jpg
 
+# Download game screenshot
+curl -o assets/images/game-screenshot.jpg https://img.freepik.com/free-photo/top-view-uno-game-cards_23-2149339249.jpg
+
 # Download favicon
 curl -o assets/images/favicon.ico https://cdn-icons-png.flaticon.com/512/686/686589.png
 
