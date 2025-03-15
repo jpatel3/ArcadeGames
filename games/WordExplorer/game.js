@@ -377,23 +377,17 @@ function highlightCurrentWord() {
         let wordCells = [];
 
         if (direction === 'across') {
-            for (let c = 0; c < word.word.length; c++) {
-                const cellRow = word.row;
-                const cellCol = word.col + c;
-                wordCells.push({ row: cellRow, col: cellCol });
-
-                if (cellRow === row && cellCol === col) {
-                    isPartOfWord = true;
+            if (row === word.row && col >= word.col && col < word.col + word.word.length) {
+                isPartOfWord = true;
+                for (let c = 0; c < word.word.length; c++) {
+                    wordCells.push({ row: word.row, col: word.col + c });
                 }
             }
         } else { // down
-            for (let r = 0; r < word.word.length; r++) {
-                const cellRow = word.row + r;
-                const cellCol = word.col;
-                wordCells.push({ row: cellRow, col: cellCol });
-
-                if (cellRow === row && cellCol === col) {
-                    isPartOfWord = true;
+            if (col === word.col && row >= word.row && row < word.row + word.word.length) {
+                isPartOfWord = true;
+                for (let r = 0; r < word.word.length; r++) {
+                    wordCells.push({ row: word.row + r, col: word.col });
                 }
             }
         }
@@ -401,6 +395,40 @@ function highlightCurrentWord() {
         if (isPartOfWord) {
             wordToHighlight = { word, cells: wordCells };
             break;
+        }
+    }
+
+    // If no word found in the selected direction, try the other direction
+    if (!wordToHighlight) {
+        const otherDirection = direction === 'across' ? 'down' : 'across';
+
+        for (const word of levelData.words) {
+            if (word.direction !== otherDirection) continue;
+
+            let isPartOfWord = false;
+            let wordCells = [];
+
+            if (otherDirection === 'across') {
+                if (row === word.row && col >= word.col && col < word.col + word.word.length) {
+                    isPartOfWord = true;
+                    for (let c = 0; c < word.word.length; c++) {
+                        wordCells.push({ row: word.row, col: word.col + c });
+                    }
+                }
+            } else { // down
+                if (col === word.col && row >= word.row && row < word.row + word.word.length) {
+                    isPartOfWord = true;
+                    for (let r = 0; r < word.word.length; r++) {
+                        wordCells.push({ row: word.row + r, col: word.col });
+                    }
+                }
+            }
+
+            if (isPartOfWord) {
+                wordToHighlight = { word, cells: wordCells };
+                gameState.selectedDirection = otherDirection; // Switch direction
+                break;
+            }
         }
     }
 
@@ -440,8 +468,19 @@ function enterLetter(letter) {
             cell.appendChild(letterElement);
         }
 
+        // Check if the letter is correct
+        const correctLetter = gameState.grid[row][col];
+        if (letter === correctLetter) {
+            cell.classList.add('correct');
+            setTimeout(() => {
+                cell.classList.remove('correct');
+            }, 500);
+        }
+
         // Move to next cell
-        moveToNextCell();
+        setTimeout(() => {
+            moveToNextCell();
+        }, 100);
     }
 }
 
