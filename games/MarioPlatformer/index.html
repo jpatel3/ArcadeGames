@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mario Platformer</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="assets/images/favicon.png">
+    <meta name="theme-color" content="#5c94fc">
+    <meta name="description" content="A simple Mario-style platformer game">
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KZFSM3MMX2"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-KZFSM3MMX2');
+    </script>
+</head>
+<body>
+    <div class="game-container">
+        <!-- Audio Elements -->
+        <audio id="jumpSound" preload="auto">
+            <source src="assets/sounds/jump.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="coinSound" preload="auto">
+            <source src="assets/sounds/coin.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="gameOverSound" preload="auto">
+            <source src="assets/sounds/game-over.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="levelCompleteSound" preload="auto">
+            <source src="assets/sounds/level-complete.mp3" type="audio/mpeg">
+        </audio>
+        <audio id="backgroundMusic" loop preload="auto">
+            <source src="assets/sounds/background-music.mp3" type="audio/mpeg">
+        </audio>
+
+        <!-- Audio Controls -->
+        <div class="audio-controls">
+            <button id="toggleMusic" class="icon-button">
+                <span class="icon">🔊</span>
+            </button>
+            <button id="toggleSound" class="icon-button">
+                <span class="icon">🔔</span>
+            </button>
+        </div>
+
+        <!-- Game Canvas -->
+        <canvas id="gameCanvas"></canvas>
+
+        <!-- Game UI -->
+        <div class="game-ui">
+            <div class="score-container">
+                <div class="coins">
+                    <span class="coin-icon">🪙</span>
+                    <span id="coinCount">0</span>
+                </div>
+                <div class="lives">
+                    <span class="life-icon">❤️</span>
+                    <span id="lifeCount">3</span>
+                </div>
+            </div>
+            <div class="level-info">
+                <span>Level: </span>
+                <span id="levelNumber">1</span>
+            </div>
+        </div>
+
+        <!-- Game Over Screen -->
+        <div id="gameOverScreen" class="overlay hidden">
+            <div class="overlay-content">
+                <h2>Game Over</h2>
+                <p>Your Score: <span id="finalScore">0</span></p>
+                <button id="restartButton" class="primary-button">Play Again</button>
+                <a href="../../index.html" class="secondary-button">Main Menu</a>
+            </div>
+        </div>
+
+        <!-- Level Complete Screen -->
+        <div id="levelCompleteScreen" class="overlay hidden">
+            <div class="overlay-content">
+                <h2>Level Complete!</h2>
+                <p>Coins Collected: <span id="levelCoins">0</span></p>
+                <button id="nextLevelButton" class="primary-button">Next Level</button>
+                <a href="../../index.html" class="secondary-button">Main Menu</a>
+            </div>
+        </div>
+
+        <!-- Mobile Controls -->
+        <div class="mobile-controls">
+            <div class="direction-buttons">
+                <button id="leftButton" class="control-button">◀</button>
+                <button id="rightButton" class="control-button">▶</button>
+            </div>
+            <button id="jumpButton" class="control-button jump-button">Jump</button>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>

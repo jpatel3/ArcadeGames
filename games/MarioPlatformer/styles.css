@@ -1,0 +1,244 @@
+/* Base styles */
+:root {
+    --sky-color: #5c94fc;
+    --ground-color: #5d94fb;
+    --text-color: #ffffff;
+    --ui-background: rgba(0, 0, 0, 0.7);
+    --primary-button: #e52521;
+    --primary-button-hover: #ff4136;
+    --secondary-button: #4a752c;
+    --secondary-button-hover: #5c8f38;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--sky-color);
+    color: var(--text-color);
+    overflow: hidden;
+    touch-action: none;
+}
+
+.game-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Canvas */
+#gameCanvas {
+    display: block;
+    background-color: var(--sky-color);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Game UI */
+.game-ui {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    justify-content: space-between;
+    width: calc(100% - 20px);
+    padding: 10px;
+    background-color: var(--ui-background);
+    border-radius: 8px;
+    z-index: 10;
+}
+
+.score-container {
+    display: flex;
+    gap: 20px;
+}
+
+.coins, .lives {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.coin-icon, .life-icon {
+    font-size: 20px;
+}
+
+.level-info {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Overlay screens */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 20;
+}
+
+.overlay-content {
+    background-color: var(--ui-background);
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+}
+
+.overlay h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: var(--text-color);
+}
+
+.overlay p {
+    font-size: 18px;
+    margin-bottom: 25px;
+    color: var(--text-color);
+}
+
+.hidden {
+    display: none;
+}
+
+/* Buttons */
+.primary-button, .secondary-button {
+    padding: 12px 24px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin: 5px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.2s;
+}
+
+.primary-button {
+    background-color: var(--primary-button);
+    color: white;
+}
+
+.primary-button:hover {
+    background-color: var(--primary-button-hover);
+}
+
+.secondary-button {
+    background-color: var(--secondary-button);
+    color: white;
+}
+
+.secondary-button:hover {
+    background-color: var(--secondary-button-hover);
+}
+
+/* Audio controls */
+.audio-controls {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 15;
+    display: flex;
+    gap: 10px;
+}
+
+.icon-button {
+    background: var(--ui-background);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.icon {
+    font-size: 20px;
+    color: var(--text-color);
+}
+
+/* Mobile controls */
+.mobile-controls {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    z-index: 15;
+}
+
+.direction-buttons {
+    display: flex;
+    gap: 20px;
+}
+
+.control-button {
+    background-color: var(--ui-background);
+    border: none;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    color: white;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.jump-button {
+    width: 80px;
+    height: 80px;
+    font-size: 18px;
+}
+
+/* Hide mobile controls on desktop */
+@media (min-width: 768px) {
+    .mobile-controls {
+        display: none;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .game-ui {
+        padding: 5px;
+    }
+
+    .coins, .lives, .level-info {
+        font-size: 16px;
+    }
+
+    .control-button {
+        width: 50px;
+        height: 50px;
+    }
+
+    .jump-button {
+        width: 70px;
+        height: 70px;
+    }
+}
