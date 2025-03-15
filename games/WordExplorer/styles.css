@@ -209,11 +209,15 @@ h3 {
 .grid-cell.correct {
     background-color: var(--success-color);
     color: white;
+    animation: pulse-correct 0.5s ease;
+    box-shadow: 0 0 10px var(--success-color);
 }
 
 .grid-cell.incorrect {
     background-color: var(--error-color);
     color: white;
+    animation: shake 0.5s ease;
+    box-shadow: 0 0 10px var(--error-color);
 }
 
 .grid-cell.highlighted {
@@ -497,4 +501,16 @@ h3 {
     .keyboard {
         grid-template-columns: repeat(5, 1fr);
     }
+}
+
+@keyframes pulse-correct {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-5px); }
+    40%, 80% { transform: translateX(5px); }
 }

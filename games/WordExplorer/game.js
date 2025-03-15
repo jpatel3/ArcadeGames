@@ -399,6 +399,7 @@ function highlightCurrentWord() {
     }
 
     // If no word found in the selected direction, try the other direction
+    // but don't change the selected direction
     if (!wordToHighlight) {
         const otherDirection = direction === 'across' ? 'down' : 'across';
 
@@ -426,7 +427,7 @@ function highlightCurrentWord() {
 
             if (isPartOfWord) {
                 wordToHighlight = { word, cells: wordCells };
-                gameState.selectedDirection = otherDirection; // Switch direction
+                // Don't change the direction here
                 break;
             }
         }
@@ -441,8 +442,18 @@ function highlightCurrentWord() {
             }
         });
 
-        // Select word in clue list
-        selectWord(wordToHighlight.word);
+        // Select word in clue list without changing direction
+        const clue = document.querySelector(`.clue-item[data-word-id="${wordToHighlight.word.id}"]`);
+        if (clue) {
+            // Deselect previous word
+            const prevClue = document.querySelector(`.clue-item.active`);
+            if (prevClue) prevClue.classList.remove('active');
+
+            // Select new word
+            clue.classList.add('active');
+            gameState.selectedWord = wordToHighlight.word;
+            // Don't change the direction
+        }
     }
 }
 
@@ -451,6 +462,7 @@ function enterLetter(letter) {
     if (!gameState.selectedCell) return;
 
     const { row, col } = gameState.selectedCell;
+    const direction = gameState.selectedDirection;
     const cell = document.querySelector(`.grid-cell[data-row="${row}"][data-col="${col}"]`);
 
     if (cell && !cell.classList.contains('black')) {
@@ -475,12 +487,43 @@ function enterLetter(letter) {
             setTimeout(() => {
                 cell.classList.remove('correct');
             }, 500);
+
+            // Play correct sound
+            playSound('correct');
+        } else {
+            // Visual feedback for incorrect letter
+            cell.classList.add('incorrect');
+            setTimeout(() => {
+                cell.classList.remove('incorrect');
+            }, 500);
+
+            // Play incorrect sound
+            playSound('incorrect');
         }
 
-        // Move to next cell
-        setTimeout(() => {
-            moveToNextCell();
-        }, 100);
+        // Calculate next cell position
+        let nextRow = row;
+        let nextCol = col;
+
+        if (direction === 'across') {
+            nextCol++;
+        } else { // down
+            nextRow++;
+        }
+
+        // Check if next cell exists and is not black
+        const nextCell = document.querySelector(`.grid-cell[data-row="${nextRow}"][data-col="${nextCol}"]`);
+        if (nextCell && !nextCell.classList.contains('black')) {
+            // Deselect current cell
+            cell.classList.remove('selected');
+
+            // Select next cell
+            nextCell.classList.add('selected');
+            gameState.selectedCell = { row: nextRow, col: nextCol };
+
+            // Highlight current word (don't change direction)
+            highlightCurrentWord();
+        }
     }
 }
 
@@ -865,7 +908,18 @@ function addEventListeners() {
     document.addEventListener('keydown', (e) => {
         if (gameScreen.classList.contains('hidden')) return;
 
-        if (e.key >= 'a' && e.key <= 'z' || e.key >= 'A' && e.key <= 'Z') {
+        // Prevent default behavior for Tab key
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            // Move to next cell or next word
+            if (e.shiftKey) {
+                // Shift+Tab moves backward
+                moveToPreviousCell();
+            } else {
+                // Tab moves forward
+                moveToNextCell();
+            }
+        } else if (e.key >= 'a' && e.key <= 'z' || e.key >= 'A' && e.key <= 'Z') {
             enterLetter(e.key.toUpperCase());
         } else if (e.key === 'Backspace') {
             deleteLetter();
