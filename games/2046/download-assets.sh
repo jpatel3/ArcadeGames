@@ -8,7 +8,7 @@ mkdir -p assets/images
 
 echo "Downloading game screenshot..."
 
-# Download game screenshot
-curl -L "https://cdn.pixabay.com/photo/2017/01/31/13/14/number-2023966_640.png" -o assets/images/game-screenshot.jpg
+# Download game screenshot - using a better image
+curl -L "https://cdn.pixabay.com/photo/2017/08/05/11/16/logo-2582748_640.png" -o assets/images/game-screenshot.jpg
 
 echo "Game screenshot downloaded successfully!"

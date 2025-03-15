@@ -202,7 +202,9 @@ function generateGrid(levelData) {
                         cell.dataset.wordDirection = word.direction;
                     }
 
-                    gameState.grid[row][col] = '';
+                    // Find the correct letter for this cell
+                    const correctLetter = findCorrectLetterForCell(levelData, row, col);
+                    gameState.grid[row][col] = correctLetter;
                 } else if (typeof cellData === 'string') {
                     // Cell has a letter
                     gameState.grid[row][col] = cellData.toUpperCase();
@@ -215,6 +217,28 @@ function generateGrid(levelData) {
             crosswordGrid.appendChild(cell);
         }
     }
+}
+
+// Helper function to find the correct letter for a cell
+function findCorrectLetterForCell(levelData, row, col) {
+    for (const word of levelData.words) {
+        if (word.direction === 'across') {
+            // Check if the cell is part of this across word
+            if (row === word.row && col >= word.col && col < word.col + word.word.length) {
+                // Calculate the index in the word
+                const letterIndex = col - word.col;
+                return word.word[letterIndex].toUpperCase();
+            }
+        } else { // down
+            // Check if the cell is part of this down word
+            if (col === word.col && row >= word.row && row < word.row + word.word.length) {
+                // Calculate the index in the word
+                const letterIndex = row - word.row;
+                return word.word[letterIndex].toUpperCase();
+            }
+        }
+    }
+    return '';
 }
 
 // Generate clues

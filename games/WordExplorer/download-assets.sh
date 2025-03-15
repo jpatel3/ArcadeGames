@@ -79,7 +79,8 @@ curl -L "https://cdn.pixabay.com/photo/2012/04/12/20/43/button-30644_640.png" -o
 
 # Download favicon and game screenshot
 curl -L "https://cdn.pixabay.com/photo/2016/03/31/19/50/book-1295170_640.png" -o assets/images/favicon.png
-curl -L "https://cdn.pixabay.com/photo/2017/08/01/00/38/man-2562325_640.jpg" -o assets/images/game-screenshot.jpg
+# Download a more fun and colorful game screenshot
+curl -L "https://cdn.pixabay.com/photo/2017/08/06/22/01/books-2596809_640.jpg" -o assets/images/game-screenshot.jpg
 
 echo "Image assets downloaded successfully!"
 
