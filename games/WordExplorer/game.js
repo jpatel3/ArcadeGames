@@ -172,6 +172,15 @@ function generateGrid(levelData) {
         Array(levelData.grid.cols).fill('')
     );
 
+    // Find cells that need number indicators
+    const cellNumbers = {};
+    levelData.words.forEach(word => {
+        const key = `${word.row}-${word.col}`;
+        if (!cellNumbers[key]) {
+            cellNumbers[key] = word.id;
+        }
+    });
+
     // Create grid cells
     for (let row = 0; row < levelData.grid.rows; row++) {
         for (let col = 0; col < levelData.grid.cols; col++) {
@@ -188,25 +197,28 @@ function generateGrid(levelData) {
                 cell.classList.add('black');
                 gameState.grid[row][col] = null;
             } else {
-                // Check if cell has a number
-                if (typeof cellData === 'number') {
+                // Check if cell needs a number indicator
+                const cellKey = `${row}-${col}`;
+                if (cellNumbers[cellKey]) {
                     const cellNumber = document.createElement('span');
                     cellNumber.className = 'cell-number';
-                    cellNumber.textContent = cellData;
+                    cellNumber.textContent = cellNumbers[cellKey];
                     cell.appendChild(cellNumber);
 
                     // Find word that starts with this number
-                    const word = levelData.words.find(w => w.id === cellData);
+                    const word = levelData.words.find(w => w.id === cellNumbers[cellKey]);
                     if (word) {
                         cell.dataset.wordId = word.id;
                         cell.dataset.wordDirection = word.direction;
                     }
+                }
 
-                    // Find the correct letter for this cell
-                    const correctLetter = findCorrectLetterForCell(levelData, row, col);
-                    gameState.grid[row][col] = correctLetter;
-                } else if (typeof cellData === 'string') {
-                    // Cell has a letter
+                // Find the correct letter for this cell
+                const correctLetter = findCorrectLetterForCell(levelData, row, col);
+                gameState.grid[row][col] = correctLetter;
+
+                // If cell has a letter in the grid data, use it
+                if (typeof cellData === 'string') {
                     gameState.grid[row][col] = cellData.toUpperCase();
                 }
 

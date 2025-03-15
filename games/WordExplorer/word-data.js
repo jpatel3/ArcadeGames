@@ -11,10 +11,10 @@ const LEVELS = [
             rows: 5,
             cols: 5,
             data: [
-                [1, 2, 3, null, null],
-                [4, "C", "A", "T", null],
-                [null, "U", null, "O", null],
-                [null, "N", null, "P", 5],
+                [null, "S", "T", null, null],
+                [null, "U", "C", "T", null],
+                [null, "N", "A", "O", null],
+                [null, null, "T", "P", null],
                 [null, null, "D", "O", "G"]
             ]
         },
@@ -23,9 +23,9 @@ const LEVELS = [
                 id: 1,
                 word: "CAT",
                 clue: "A furry pet that says meow",
-                direction: "across",
+                direction: "down",
                 row: 1,
-                col: 1,
+                col: 2,
                 image: "cat.png"
             },
             {
@@ -33,7 +33,7 @@ const LEVELS = [
                 word: "SUN",
                 clue: "It shines in the sky during the day",
                 direction: "down",
-                row: 1,
+                row: 0,
                 col: 1,
                 image: "sun.png"
             },
