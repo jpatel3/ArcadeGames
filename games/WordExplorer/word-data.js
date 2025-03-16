@@ -241,13 +241,12 @@ const LEVELS = [
             cols: 6,
             data: [
                 [null, null, null, null, null, null],
-                [null, "F", "I", "S", "H", null],
-                [null, "R", null, null, null, null],
-                [null, "O", null, null, null, null],
-                [null, "G", null, "B", null, null],
-                [null, null, null, "E", null, null],
-                [null, null, null, "A", null, null],
-                [null, null, null, "R", null, null]
+                [null, "", "", "", "", null],  // FISH across
+                [null, "", null, null, null, null],  // FROG down
+                [null, "", null, "", null, null],  // BEAR down starts here
+                [null, "", null, "", null, null],
+                [null, null, null, "", null, null],
+                [null, null, null, "", null, null]
             ]
         },
         words: [
@@ -256,7 +255,7 @@ const LEVELS = [
                 word: "FROG",
                 clue: "A green animal that jumps and lives near water",
                 direction: "down",
-                row: 0,
+                row: 1,
                 col: 1,
                 image: "frog.png"
             },
@@ -266,7 +265,7 @@ const LEVELS = [
                 clue: "An animal that swims in water",
                 direction: "across",
                 row: 1,
-                col: 0,
+                col: 1,
                 image: "fish.png"
             },
             {
