@@ -177,7 +177,9 @@ function generateGrid(levelData) {
     levelData.words.forEach(word => {
         const key = `${word.row}-${word.col}`;
         if (!cellNumbers[key]) {
-            cellNumbers[key] = word.id;
+            cellNumbers[key] = [word.id];
+        } else {
+            cellNumbers[key].push(word.id);
         }
     });
 
@@ -197,20 +199,23 @@ function generateGrid(levelData) {
                 cell.classList.add('black');
                 gameState.grid[row][col] = null;
             } else {
-                // Check if cell needs a number indicator
+                // Check if cell needs number indicators
                 const cellKey = `${row}-${col}`;
                 if (cellNumbers[cellKey]) {
-                    const cellNumber = document.createElement('span');
-                    cellNumber.className = 'cell-number';
-                    cellNumber.textContent = cellNumbers[cellKey];
-                    cell.appendChild(cellNumber);
+                    // Add each number as a separate span
+                    cellNumbers[cellKey].forEach(numberId => {
+                        const cellNumber = document.createElement('span');
+                        cellNumber.className = 'cell-number';
+                        cellNumber.textContent = numberId;
+                        cell.appendChild(cellNumber);
 
-                    // Find word that starts with this number
-                    const word = levelData.words.find(w => w.id === cellNumbers[cellKey]);
-                    if (word) {
-                        cell.dataset.wordId = word.id;
-                        cell.dataset.wordDirection = word.direction;
-                    }
+                        // Find word that starts with this number
+                        const word = levelData.words.find(w => w.id === numberId);
+                        if (word) {
+                            cell.dataset[`wordId${word.direction}`] = word.id;
+                            cell.dataset[`wordDirection${word.direction}`] = word.direction;
+                        }
+                    });
                 }
 
                 // Find the correct letter for this cell
@@ -908,51 +913,67 @@ function addEventListeners() {
     document.addEventListener('keydown', (e) => {
         if (gameScreen.classList.contains('hidden')) return;
 
-        // Prevent default behavior for Tab key
-        if (e.key === 'Tab') {
-            e.preventDefault();
-            // Move to next cell or next word
-            if (e.shiftKey) {
-                // Shift+Tab moves backward
-                moveToPreviousCell();
-            } else {
-                // Tab moves forward
-                moveToNextCell();
-            }
-        } else if (e.key >= 'a' && e.key <= 'z' || e.key >= 'A' && e.key <= 'Z') {
-            enterLetter(e.key.toUpperCase());
-        } else if (e.key === 'Backspace') {
-            deleteLetter();
-        } else if (e.key === 'ArrowRight') {
-            if (gameState.selectedDirection !== 'across') {
-                gameState.selectedDirection = 'across';
-                highlightCurrentWord();
-            } else {
-                moveToNextCell();
-            }
-        } else if (e.key === 'ArrowLeft') {
-            if (gameState.selectedDirection !== 'across') {
-                gameState.selectedDirection = 'across';
-                highlightCurrentWord();
-            } else {
-                moveToPreviousCell();
-            }
-        } else if (e.key === 'ArrowDown') {
-            if (gameState.selectedDirection !== 'down') {
-                gameState.selectedDirection = 'down';
-                highlightCurrentWord();
-            } else {
-                moveToNextCell();
-            }
-        } else if (e.key === 'ArrowUp') {
-            if (gameState.selectedDirection !== 'down') {
-                gameState.selectedDirection = 'down';
-                highlightCurrentWord();
-            } else {
-                moveToPreviousCell();
-            }
-        } else if (e.key === 'Enter') {
-            checkAnswers();
+        // Handle only specific keys
+        switch (e.key) {
+            case 'Tab':
+                e.preventDefault();
+                if (e.shiftKey) {
+                    moveToPreviousCell();
+                } else {
+                    moveToNextCell();
+                }
+                break;
+            case 'Backspace':
+                e.preventDefault();
+                deleteLetter();
+                break;
+            case 'ArrowRight':
+                e.preventDefault();
+                if (gameState.selectedDirection !== 'across') {
+                    gameState.selectedDirection = 'across';
+                    highlightCurrentWord();
+                } else {
+                    moveToNextCell();
+                }
+                break;
+            case 'ArrowLeft':
+                e.preventDefault();
+                if (gameState.selectedDirection !== 'across') {
+                    gameState.selectedDirection = 'across';
+                    highlightCurrentWord();
+                } else {
+                    moveToPreviousCell();
+                }
+                break;
+            case 'ArrowDown':
+                e.preventDefault();
+                if (gameState.selectedDirection !== 'down') {
+                    gameState.selectedDirection = 'down';
+                    highlightCurrentWord();
+                } else {
+                    moveToNextCell();
+                }
+                break;
+            case 'ArrowUp':
+                e.preventDefault();
+                if (gameState.selectedDirection !== 'down') {
+                    gameState.selectedDirection = 'down';
+                    highlightCurrentWord();
+                } else {
+                    moveToPreviousCell();
+                }
+                break;
+            case 'Enter':
+                e.preventDefault();
+                checkAnswers();
+                break;
+            default:
+                // Only allow letter keys
+                if (/^[a-zA-Z]$/.test(e.key)) {
+                    e.preventDefault();
+                    enterLetter(e.key.toUpperCase());
+                }
+                break;
         }
     });
 }
