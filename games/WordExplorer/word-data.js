@@ -191,11 +191,11 @@ const LEVELS = [
             rows: 6,
             cols: 6,
             data: [
-                [null, null, 1, null, null, null],
                 [null, null, "F", null, null, null],
-                [2, "J", "U", "M", "P", null],
-                [null, null, "N", null, null, null],
-                [3, "S", "T", "A", "R", null],
+                [null, null, "U", null, null, null],
+                ["J", "U", "N", null, null, null],
+                [null, null, null, null, null, null],
+                ["S", "T", "A", "R", null, null],
                 [null, null, null, null, null, null]
             ]
         },
@@ -211,12 +211,12 @@ const LEVELS = [
             },
             {
                 id: 2,
-                word: "JUMP",
-                clue: "To push yourself off the ground",
+                word: "JUN",
+                clue: "Short for the month of June",
                 direction: "across",
                 row: 2,
                 col: 0,
-                image: "jump.png"
+                image: "june.png"
             },
             {
                 id: 3,
