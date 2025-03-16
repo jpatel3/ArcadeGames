@@ -241,39 +241,38 @@ const LEVELS = [
             cols: 6,
             data: [
                 [null, null, null, null, null, null],
-                [null, "", "", "", "", null],  // FISH across
-                [null, "", null, null, null, null],  // FROG down
-                [null, "", null, "", null, null],  // BEAR down starts here
-                [null, "", null, "", null, null],
-                [null, null, null, "", null, null],
-                [null, null, null, "", null, null]
+                ["F", "I", "S", "H", null, null],  // FISH across
+                ["R", null, null, "B", null, null],  // FROG down, BEAR down
+                ["O", null, null, "E", null, null],
+                ["G", null, null, "A", null, null],
+                [null, null, null, "R", null, null]
             ]
         },
         words: [
             {
                 id: 1,
-                word: "FROG",
-                clue: "A green animal that jumps and lives near water",
-                direction: "down",
+                word: "FISH",
+                clue: "A swimming animal that lives in water",
+                direction: "across",
                 row: 1,
-                col: 1,
-                image: "frog.png"
+                col: 0,
+                image: "fish.png"
             },
             {
                 id: 2,
-                word: "FISH",
-                clue: "An animal that swims in water",
-                direction: "across",
+                word: "FROG",
+                clue: "A green jumping animal that lives near water",
+                direction: "down",
                 row: 1,
-                col: 1,
-                image: "fish.png"
+                col: 0,
+                image: "frog.png"
             },
             {
                 id: 3,
                 word: "BEAR",
-                clue: "A big furry animal that likes honey",
+                clue: "A big furry animal that loves honey",
                 direction: "down",
-                row: 3,
+                row: 2,
                 col: 3,
                 image: "bear.png"
             }
@@ -305,7 +304,7 @@ const LEVELS = [
                 clue: "It floats on water",
                 direction: "across",
                 row: 0,
-                col: 0,
+                col: 1,
                 image: "boat.png"
             },
             {
@@ -323,7 +322,7 @@ const LEVELS = [
                 clue: "You write with it",
                 direction: "across",
                 row: 4,
-                col: 0,
+                col: 1,
                 image: "pen.png"
             },
             {
@@ -348,13 +347,13 @@ const LEVELS = [
             rows: 7,
             cols: 7,
             data: [
-                [null, null, null, null, null, null, null],
                 [null, null, null, "T", null, null, null],
                 [null, null, null, "I", null, null, null],
-                [null, "W", "A", "G", "O", "N", null],
+                [null, null, null, "G", null, null, null],
                 [null, null, null, "E", null, null, null],
-                [null, "S", "H", "E", "E", "P", null],
-                [null, null, null, "R", null, null, null]
+                [null, null, null, "R", null, null, null],
+                ["W", "A", "G", "O", "N", null, null],
+                [null, "S", "H", "E", "E", "P", null]
             ]
         },
         words: [
@@ -372,7 +371,7 @@ const LEVELS = [
                 word: "WAGON",
                 clue: "A cart with four wheels that you can pull",
                 direction: "across",
-                row: 3,
+                row: 5,
                 col: 0,
                 image: "wagon.png"
             },
@@ -381,8 +380,8 @@ const LEVELS = [
                 word: "SHEEP",
                 clue: "A farm animal with wool",
                 direction: "across",
-                row: 5,
-                col: 0,
+                row: 6,
+                col: 1,
                 image: "sheep.png"
             }
         ],
@@ -398,12 +397,12 @@ const LEVELS = [
             rows: 7,
             cols: 7,
             data: [
-                [null, null, null, null, null, null, null],
-                [null, null, "P", null, null, null, null],
-                [null, "L", "A", "K", "E", null, null],
-                [null, null, "P", null, null, null, null],
-                [null, null, "E", null, null, null, null],
-                [null, null, "R", null, "C", null, null],
+                [null, null, "P", null, "C", null, null],
+                [null, null, "A", null, "L", null, null],
+                [null, "L", "P", "K", "O", null, null],
+                [null, "A", "E", null, "U", null, null],
+                [null, "K", "R", null, "D", null, null],
+                [null, "E", null, null, null, null, null],
                 [null, "H", "O", "U", "S", "E", null]
             ]
         },
@@ -421,9 +420,9 @@ const LEVELS = [
                 id: 2,
                 word: "LAKE",
                 clue: "A large area of water surrounded by land",
-                direction: "across",
+                direction: "down",
                 row: 2,
-                col: 0,
+                col: 1,
                 image: "lake.png"
             },
             {
@@ -431,7 +430,7 @@ const LEVELS = [
                 word: "CLOUD",
                 clue: "White fluffy thing in the sky",
                 direction: "down",
-                row: 4,
+                row: 0,
                 col: 4,
                 image: "cloud.png"
             },
@@ -441,7 +440,7 @@ const LEVELS = [
                 clue: "A building where people live",
                 direction: "across",
                 row: 6,
-                col: 0,
+                col: 1,
                 image: "house.png"
             }
         ],
@@ -457,13 +456,13 @@ const LEVELS = [
             rows: 7,
             cols: 7,
             data: [
-                [null, "B", "R", "A", "I", "N", null],
+                ["B", "R", "A", "I", "N", null, null],
                 [null, null, null, null, null, null, null],
-                [null, "M", "O", "O", "N", null, null],
+                ["M", "O", "O", "N", null, null, null],
                 [null, null, null, null, null, null, null],
-                [null, "S", "W", "I", "M", null, null],
+                ["S", "W", "I", "M", null, null, null],
                 [null, null, null, null, null, null, null],
-                [null, "F", "L", "O", "W", "E", "R"]
+                ["F", "L", "O", "W", "E", "R", null]
             ]
         },
         words: [
@@ -517,15 +516,13 @@ const LEVELS = [
             cols: 8,
             data: [
                 [null, null, null, null, null, null, null, null],
-                [null, "G", "A", "R", "D", "E", "N", null],
-                [null, null, null, null, null, null, null, null],
-                [null, null, null, null, null, null, null, null],
+                ["G", "A", "R", "D", "E", "N", null, null],
                 [null, null, "R", null, null, null, null, null],
                 [null, null, "A", null, null, null, null, null],
-                [null, "B", "U", "T", "T", "O", "N", null],
+                [null, null, "B", null, null, null, null, null],
                 [null, null, "B", null, null, null, null, null],
                 [null, null, "I", null, null, null, null, null],
-                [null, null, "T", null, null, null, null, null]
+                ["B", "U", "T", "T", "O", "N", null, null]
             ]
         },
         words: [
@@ -543,7 +540,7 @@ const LEVELS = [
                 word: "RABBIT",
                 clue: "A furry animal with long ears that hops",
                 direction: "down",
-                row: 3,
+                row: 2,
                 col: 2,
                 image: "rabbit.png"
             },
@@ -552,7 +549,7 @@ const LEVELS = [
                 word: "BUTTON",
                 clue: "You press it to turn something on or off",
                 direction: "across",
-                row: 6,
+                row: 7,
                 col: 0,
                 image: "button.png"
             }
