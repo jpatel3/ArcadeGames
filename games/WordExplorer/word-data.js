@@ -68,11 +68,11 @@ const LEVELS = [
             rows: 5,
             cols: 5,
             data: [
-                [null, 1, null, null, null],
-                [null, "B", "A", "T", 2],
-                [3, "P", "I", "G", null],
+                [null, null, null, null, null],
+                [null, "B", "A", "T", null],
+                [null, "I", null, "G", null],
                 [null, "N", null, "U", null],
-                [null, null, null, "M", null]
+                ["P", "I", "G", "M", null]
             ]
         },
         words: [
@@ -90,7 +90,7 @@ const LEVELS = [
                 word: "GUM",
                 clue: "You chew it but don't swallow it",
                 direction: "down",
-                row: 1,
+                row: 2,
                 col: 3,
                 image: "gum.png"
             },
@@ -99,7 +99,7 @@ const LEVELS = [
                 word: "PIG",
                 clue: "A pink farm animal that says oink",
                 direction: "across",
-                row: 2,
+                row: 4,
                 col: 0,
                 image: "pig.png"
             },
@@ -125,11 +125,11 @@ const LEVELS = [
             rows: 5,
             cols: 5,
             data: [
-                [1, "F", "O", "X", null],
-                [null, "A", null, null, null],
-                [2, "B", "U", "G", null],
-                [null, null, "N", null, 3],
-                [null, null, null, "J", "A", "M"]
+                ["F", "O", "X", null, null],
+                ["A", null, null, null, null],
+                ["N", "B", "U", "G", null],
+                [null, "U", null, "J", null],
+                [null, "N", "J", "A", "M"]
             ]
         },
         words: [
@@ -148,7 +148,7 @@ const LEVELS = [
                 clue: "A small crawling insect",
                 direction: "across",
                 row: 2,
-                col: 0,
+                col: 1,
                 image: "bug.png"
             },
             {
@@ -157,7 +157,7 @@ const LEVELS = [
                 clue: "Sweet spread made from fruit",
                 direction: "across",
                 row: 4,
-                col: 3,
+                col: 2,
                 image: "jam.png"
             },
             {
@@ -175,7 +175,7 @@ const LEVELS = [
                 clue: "A small round bread roll",
                 direction: "down",
                 row: 2,
-                col: 0,
+                col: 1,
                 image: "bun.png"
             }
         ],
