@@ -69,7 +69,7 @@ const LEVELS = [
             cols: 5,
             data: [
                 [null, null, null, null, null],
-                [null, 4, "B", "A", "T"],
+                [null, null, 4, "A", "T"],
                 [null, null, "I", "G", null],
                 [null, null, "N", "U", null],
                 ["P", "I", "G", "M", null]
