@@ -69,10 +69,10 @@ const LEVELS = [
             cols: 5,
             data: [
                 [null, null, null, null, null],
-                [null, null, " ", " ", " "],  // BAT across, BIN starts here going down
-                [null, null, " ", " ", null],
-                [null, null, " ", " ", null],
-                [" ", " ", " ", " ", null]     // PIG across
+                [null, null, "", "", ""],  // BAT across, BIN starts here going down
+                [null, null, "", "", null],
+                [null, null, "", "", null],
+                ["", "", "", "", null]     // PIG across
             ]
         },
         words: [
