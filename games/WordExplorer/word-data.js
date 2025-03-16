@@ -69,7 +69,7 @@ const LEVELS = [
             cols: 5,
             data: [
                 [null, null, null, null, null],
-                [null, null, 4, "A", "T"],
+                [null, null, "B", "A", "T"],
                 [null, null, "I", "G", null],
                 [null, null, "N", "U", null],
                 ["P", "I", "G", "M", null]
@@ -240,10 +240,10 @@ const LEVELS = [
             rows: 6,
             cols: 6,
             data: [
-                [null, 1, null, null, null, null],
-                [2, "F", "I", "S", "H", null],
+                [null, null, null, null, null, null],
+                [null, "F", "I", "S", "H", null],
                 [null, "R", null, null, null, null],
-                [null, "O", null, 3, null, null],
+                [null, "O", null, null, null, null],
                 [null, "G", null, "B", null, null],
                 [null, null, null, "E", null, null],
                 [null, null, null, "A", null, null],
@@ -291,11 +291,11 @@ const LEVELS = [
             rows: 6,
             cols: 6,
             data: [
-                [1, "B", "O", "A", "T", null],
+                [null, "B", "O", "A", "T", null],
                 [null, null, null, null, "R", null],
-                [null, 2, null, null, "E", null],
+                [null, null, null, null, "E", null],
                 [null, "C", "A", "K", "E", null],
-                [3, "P", "E", "N", null, null],
+                [null, "P", "E", "N", null, null],
                 [null, null, null, null, null, null]
             ]
         },
@@ -340,7 +340,6 @@ const LEVELS = [
         hintsAllowed: 3
     },
 
-    // Continue with more levels...
     // Level 7: Five-letter words
     {
         id: 7,
@@ -350,12 +349,12 @@ const LEVELS = [
             rows: 7,
             cols: 7,
             data: [
-                [null, null, null, 1, null, null, null],
+                [null, null, null, null, null, null, null],
                 [null, null, null, "T", null, null, null],
                 [null, null, null, "I", null, null, null],
-                [2, "W", "A", "G", "O", "N", null],
+                [null, "W", "A", "G", "O", "N", null],
                 [null, null, null, "E", null, null, null],
-                [3, "S", "H", "E", "E", "P", null],
+                [null, "S", "H", "E", "E", "P", null],
                 [null, null, null, "R", null, null, null]
             ]
         },
@@ -400,13 +399,13 @@ const LEVELS = [
             rows: 7,
             cols: 7,
             data: [
-                [null, null, 1, null, null, null, null],
+                [null, null, null, null, null, null, null],
                 [null, null, "P", null, null, null, null],
-                [2, "L", "A", "K", "E", null, null],
+                [null, "L", "A", "K", "E", null, null],
                 [null, null, "P", null, null, null, null],
-                [null, null, "E", null, 3, null, null],
+                [null, null, "E", null, null, null, null],
                 [null, null, "R", null, "C", null, null],
-                [4, "H", "O", "U", "S", "E", null]
+                [null, "H", "O", "U", "S", "E", null]
             ]
         },
         words: [
@@ -459,13 +458,13 @@ const LEVELS = [
             rows: 7,
             cols: 7,
             data: [
-                [1, "B", "R", "A", "I", "N", null],
+                [null, "B", "R", "A", "I", "N", null],
                 [null, null, null, null, null, null, null],
-                [2, "M", "O", "O", "N", null, null],
+                [null, "M", "O", "O", "N", null, null],
                 [null, null, null, null, null, null, null],
-                [3, "S", "W", "I", "M", null, null],
+                [null, "S", "W", "I", "M", null, null],
                 [null, null, null, null, null, null, null],
-                [4, "F", "L", "O", "W", "E", "R"]
+                [null, "F", "L", "O", "W", "E", "R"]
             ]
         },
         words: [
@@ -519,12 +518,12 @@ const LEVELS = [
             cols: 8,
             data: [
                 [null, null, null, null, null, null, null, null],
-                [1, "G", "A", "R", "D", "E", "N", null],
+                [null, "G", "A", "R", "D", "E", "N", null],
                 [null, null, null, null, null, null, null, null],
-                [null, null, 2, null, null, null, null, null],
+                [null, null, null, null, null, null, null, null],
                 [null, null, "R", null, null, null, null, null],
                 [null, null, "A", null, null, null, null, null],
-                [3, "B", "U", "T", "T", "O", "N", null],
+                [null, "B", "U", "T", "T", "O", "N", null],
                 [null, null, "B", null, null, null, null, null],
                 [null, null, "I", null, null, null, null, null],
                 [null, null, "T", null, null, null, null, null]
