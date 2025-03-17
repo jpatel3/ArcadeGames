@@ -228,8 +228,26 @@ h3 {
     position: absolute;
     top: 2px;
     left: 2px;
-    font-size: 0.7rem;
+    font-size: 12px;
     color: #666;
+    z-index: 1;
+}
+
+.cell-number + .cell-number {
+    left: auto;
+    right: 2px;
+}
+
+.cell-number:nth-child(3) {
+    top: auto;
+    bottom: 2px;
+    left: 2px;
+}
+
+.cell-number:nth-child(4) {
+    top: auto;
+    bottom: 2px;
+    right: 2px;
 }
 
 /* Clues Container */
@@ -463,25 +481,37 @@ h3 {
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
-    :root {
-        --grid-cell-size: 40px;
-    }
-
-    h1 {
-        font-size: 2rem;
-    }
-
-    h2 {
-        font-size: 1.5rem;
-    }
-
-    .game-controls {
+    .game-content {
         flex-direction: column;
-        align-items: center;
+    }
+
+    .grid-container {
+        max-width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .grid-cell {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+    }
+
+    .cell-number {
+        font-size: 10px;
+    }
+
+    .clues-container {
+        max-height: 200px;
     }
 
     .keyboard {
         grid-template-columns: repeat(7, 1fr);
+    }
+
+    .key {
+        padding: 8px;
+        font-size: 1rem;
     }
 }
 
@@ -513,4 +543,22 @@ h3 {
     0%, 100% { transform: translateX(0); }
     20%, 60% { transform: translateX(-5px); }
     40%, 80% { transform: translateX(5px); }
+}
+
+.virtual-keyboard-trigger {
+    position: fixed;
+    opacity: 0;
+    pointer-events: none;
+    width: 0;
+    height: 0;
+    z-index: -1;
+}
+
+/* Prevent page zoom on iOS */
+@media screen and (max-width: 768px) {
+    input[type="text"],
+    select,
+    textarea {
+        font-size: 16px !important;
+    }
 }

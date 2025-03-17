@@ -314,7 +314,7 @@ function generateKeyboard() {
 }
 
 // Select cell
-function selectCell(row, col) {
+function selectCell(row, col, keepDirection = false) {
     // Deselect previous cell
     if (gameState.selectedCell) {
         const prevCell = document.querySelector(`.grid-cell[data-row="${gameState.selectedCell.row}"][data-col="${gameState.selectedCell.col}"]`);
@@ -327,9 +327,48 @@ function selectCell(row, col) {
         cell.classList.add('selected');
         gameState.selectedCell = { row, col };
 
-        // Determine word direction
-        if (cell.dataset.wordDirection) {
-            gameState.selectedDirection = cell.dataset.wordDirection;
+        // Create a temporary input for mobile keyboard
+        const tempInput = document.createElement('input');
+        tempInput.type = 'text';
+        tempInput.className = 'virtual-keyboard-trigger';
+        tempInput.style.position = 'fixed';
+        tempInput.style.opacity = '0';
+        tempInput.style.height = '0';
+        tempInput.style.fontSize = '16px'; // Prevents zoom on iOS
+        document.body.appendChild(tempInput);
+        tempInput.focus();
+
+        // Remove the input after it loses focus
+        tempInput.addEventListener('blur', () => {
+            document.body.removeChild(tempInput);
+        });
+
+        // Handle input changes
+        tempInput.addEventListener('input', (e) => {
+            const letter = e.target.value.slice(-1).toUpperCase();
+            if (/^[A-Z]$/.test(letter)) {
+                enterLetter(letter);
+            }
+            tempInput.value = ''; // Clear the input for next letter
+        });
+
+        // Only update direction if not keeping current direction
+        if (!keepDirection) {
+            // Find word at this cell
+            const levelData = WordData.levels.find(l => l.id === gameState.currentLevel);
+            if (levelData) {
+                const wordAtCell = levelData.words.find(word => {
+                    if (word.direction === 'across') {
+                        return row === word.row && col >= word.col && col < word.col + word.word.length;
+                    } else { // down
+                        return col === word.col && row >= word.row && row < word.row + word.word.length;
+                    }
+                });
+
+                if (wordAtCell) {
+                    gameState.selectedDirection = wordAtCell.direction;
+                }
+            }
         }
 
         // Highlight current word
@@ -506,29 +545,8 @@ function enterLetter(letter) {
             playSound('incorrect');
         }
 
-        // Calculate next cell position
-        let nextRow = row;
-        let nextCol = col;
-
-        if (direction === 'across') {
-            nextCol++;
-        } else { // down
-            nextRow++;
-        }
-
-        // Check if next cell exists and is not black
-        const nextCell = document.querySelector(`.grid-cell[data-row="${nextRow}"][data-col="${nextCol}"]`);
-        if (nextCell && !nextCell.classList.contains('black')) {
-            // Deselect current cell
-            cell.classList.remove('selected');
-
-            // Select next cell
-            nextCell.classList.add('selected');
-            gameState.selectedCell = { row: nextRow, col: nextCol };
-
-            // Highlight current word (don't change direction)
-            highlightCurrentWord();
-        }
+        // Move to next cell
+        moveToNextCell();
     }
 }
 
@@ -573,7 +591,7 @@ function moveToNextCell() {
     // Check if next cell exists and is not black
     const nextCell = document.querySelector(`.grid-cell[data-row="${nextRow}"][data-col="${nextCol}"]`);
     if (nextCell && !nextCell.classList.contains('black')) {
-        selectCell(nextRow, nextCol);
+        selectCell(nextRow, nextCol, true); // Keep the current direction
     }
 }
 
@@ -596,7 +614,7 @@ function moveToPreviousCell() {
     // Check if previous cell exists and is not black
     const prevCell = document.querySelector(`.grid-cell[data-row="${prevRow}"][data-col="${prevCol}"]`);
     if (prevCell && !prevCell.classList.contains('black')) {
-        selectCell(prevRow, prevCol);
+        selectCell(prevRow, prevCol, true); // Keep the current direction
     }
 }
 
@@ -913,7 +931,10 @@ function addEventListeners() {
     document.addEventListener('keydown', (e) => {
         if (gameScreen.classList.contains('hidden')) return;
 
-        // Handle only specific keys
+        // Allow all modifier key combinations to pass through
+        if (e.metaKey || e.ctrlKey || e.altKey) return;
+
+        // Handle specific keys
         switch (e.key) {
             case 'Tab':
                 e.preventDefault();
@@ -924,6 +945,7 @@ function addEventListeners() {
                 }
                 break;
             case 'Backspace':
+                if (!gameState.selectedCell) return; // Only prevent default if we're in a cell
                 e.preventDefault();
                 deleteLetter();
                 break;
@@ -964,12 +986,13 @@ function addEventListeners() {
                 }
                 break;
             case 'Enter':
+                if (!gameState.selectedCell) return; // Only prevent default if we're in a cell
                 e.preventDefault();
                 checkAnswers();
                 break;
             default:
-                // Only allow letter keys
-                if (/^[a-zA-Z]$/.test(e.key)) {
+                // Only handle letter keys when no modifiers are pressed
+                if (/^[a-zA-Z]$/.test(e.key) && gameState.selectedCell) {
                     e.preventDefault();
                     enterLetter(e.key.toUpperCase());
                 }
