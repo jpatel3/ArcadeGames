@@ -30,54 +30,39 @@
 
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #121212;
-            color: #fff;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            margin: 0;
             padding: 20px;
+            background-color: #f0f8ff;
         }
 
         .container {
             max-width: 1200px;
-            width: 100%;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 40px;
+            margin: 0 auto;
         }
 
         h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            color: #f5f5f5;
-        }
-
-        p.subtitle {
-            font-size: 1.2rem;
-            color: #aaa;
-            margin-bottom: 30px;
+            text-align: center;
+            color: #333;
+            margin-bottom: 40px;
         }
 
         .games-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
+            padding: 20px;
         }
 
         .game-card {
-            background-color: #1e1e1e;
+            background: white;
             border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
         }
 
         .game-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            transform: translateY(-5px);
         }
 
         .game-image {
@@ -92,24 +77,22 @@
 
         .game-title {
             font-size: 1.5rem;
-            margin-bottom: 10px;
-            color: #f5f5f5;
+            margin: 0 0 10px 0;
+            color: #333;
         }
 
         .game-description {
-            color: #aaa;
+            color: #666;
             margin-bottom: 20px;
-            line-height: 1.5;
         }
 
         .play-button {
             display: inline-block;
+            padding: 10px 20px;
             background-color: #4CAF50;
             color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
             text-decoration: none;
-            font-weight: bold;
+            border-radius: 5px;
             transition: background-color 0.3s ease;
         }
 
@@ -136,51 +119,38 @@
 </head>
 <body>
     <div class="container">
-        <header>
-            <h1>Arcade Games Collection</h1>
-            <p class="subtitle">A collection of fun browser-based games built with HTML, CSS, and JavaScript</p>
-        </header>
-
+        <h1>Arcade Games Collection</h1>
         <div class="games-grid">
-            <!-- Dinosaur Chase Game -->
             <div class="game-card">
-                <img src="games/DinosaurChase/assets/images/game-screenshot.jpg" alt="Dinosaur Chase Game" class="game-image">
+                <img src="games/MathBalloons/screenshot.png" alt="Math Balloons" class="game-image">
                 <div class="game-info">
-                    <h2 class="game-title">Dinosaur Chase Game</h2>
-                    <p class="game-description">Race to escape a T-Rex by moving along a 20-space path from the Jungle to the Safe Cave.</p>
+                    <h2 class="game-title">Math Balloons</h2>
+                    <p class="game-description">Practice addition with floating numbers! Click the numbers, solve the problem, and watch them pop with satisfying animations.</p>
+                    <a href="games/MathBalloons/index.html" class="play-button">Play Now</a>
+                </div>
+            </div>
+            <div class="game-card">
+                <img src="games/DinosaurChase/screenshot.png" alt="Dinosaur Chase" class="game-image">
+                <div class="game-info">
+                    <h2 class="game-title">Dinosaur Chase</h2>
+                    <p class="game-description">Jump over obstacles in this endless runner game featuring a cute dinosaur character.</p>
                     <a href="games/DinosaurChase/index.html" class="play-button">Play Now</a>
                 </div>
             </div>
-
-            <!-- 2048 Game -->
             <div class="game-card">
-                <img src="games/2048/assets/images/game-screenshot.jpg" alt="2048 Game" class="game-image">
-                <div class="game-info">
-                    <h2 class="game-title">2048</h2>
-                    <p class="game-description">A fun number swiping game where you combine numbers to reach 2048!</p>
-                    <a href="games/2048/" class="play-button">Play Now</a>
-                </div>
-            </div>
-
-            <!-- Word Explorer Game -->
-            <div class="game-card">
-                <img src="games/WordExplorer/assets/images/game-screenshot.jpg" alt="Word Explorer Game" class="game-image">
+                <img src="games/WordExplorer/screenshot.png" alt="Word Explorer" class="game-image">
                 <div class="game-info">
                     <h2 class="game-title">Word Explorer</h2>
-                    <p class="game-description">A fun crossword puzzle game for kids with progressive difficulty levels from ages 5-10.</p>
+                    <p class="game-description">Explore and learn new words in this engaging word puzzle game.</p>
                     <a href="games/WordExplorer/index.html" class="play-button">Play Now</a>
                 </div>
             </div>
-
-            <!-- Placeholder for future games -->
-            <div class="game-card" style="opacity: 0.5;">
-                <div style="height: 200px; background-color: #333; display: flex; justify-content: center; align-items: center;">
-                    <span style="font-size: 3rem;">?</span>
-                </div>
+            <div class="game-card">
+                <img src="games/2048/screenshot.png" alt="2048" class="game-image">
                 <div class="game-info">
-                    <h2 class="game-title">Coming Soon</h2>
-                    <p class="game-description">More exciting games are on the way! Stay tuned for updates.</p>
-                    <a href="#" class="play-button" style="background-color: #777; cursor: not-allowed;">Coming Soon</a>
+                    <h2 class="game-title">2048</h2>
+                    <p class="game-description">Classic number puzzle game where you combine tiles to reach 2048.</p>
+                    <a href="games/2048/index.html" class="play-button">Play Now</a>
                 </div>
             </div>
         </div>
