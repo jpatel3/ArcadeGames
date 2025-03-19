@@ -44,264 +44,264 @@ const cardTypes = {
 };
 
 // Initialize the game
-function init() {
-    setupEventListeners();
-    updatePlayerInputs();
-    setupAudioControls();
+function init () {
+  setupEventListeners();
+  updatePlayerInputs();
+  setupAudioControls();
 
-    // Track game start in Google Analytics
-    if (typeof gtag === 'function') {
-        gtag('event', 'game_load', {
-            'game_name': 'Uno',
-            'event_category': 'game',
-            'event_label': 'Uno Game Loaded'
-        });
-    }
+  // Track game start in Google Analytics
+  if (typeof gtag === 'function') {
+    gtag('event', 'game_load', {
+      game_name: 'Uno',
+      event_category: 'game',
+      event_label: 'Uno Game Loaded'
+    });
+  }
 }
 
 // Setup event listeners
-function setupEventListeners() {
-    // Player count change
-    playerCountSelect.addEventListener('change', updatePlayerInputs);
+function setupEventListeners () {
+  // Player count change
+  playerCountSelect.addEventListener('change', updatePlayerInputs);
 
-    // Start game button
-    startGameButton.addEventListener('click', startGame);
+  // Start game button
+  startGameButton.addEventListener('click', startGame);
 
-    // Game action buttons
-    drawCardButton.addEventListener('click', drawCard);
-    callUnoButton.addEventListener('click', callUno);
-    restartButton.addEventListener('click', restartGame);
+  // Game action buttons
+  drawCardButton.addEventListener('click', drawCard);
+  callUnoButton.addEventListener('click', callUno);
+  restartButton.addEventListener('click', restartGame);
 
-    // Color selection for player setup
-    document.querySelectorAll('.player-input .color-option').forEach(option => {
-        option.addEventListener('click', function() {
-            selectPlayerColor(this);
-        });
+  // Color selection for player setup
+  document.querySelectorAll('.player-input .color-option').forEach(option => {
+    option.addEventListener('click', function () {
+      selectPlayerColor(this);
     });
+  });
 
-    // Color selection in modal (for wild cards)
-    document.querySelectorAll('.color-selection-modal .color-option').forEach(option => {
-        option.addEventListener('click', function() {
-            selectWildColor(this.getAttribute('data-color'));
-        });
+  // Color selection in modal (for wild cards)
+  document.querySelectorAll('.color-selection-modal .color-option').forEach(option => {
+    option.addEventListener('click', function () {
+      selectWildColor(this.getAttribute('data-color'));
     });
+  });
 }
 
 // Update player inputs based on selected player count
-function updatePlayerInputs() {
-    const playerCount = parseInt(playerCountSelect.value);
+function updatePlayerInputs () {
+  const playerCount = parseInt(playerCountSelect.value);
 
-    // Show/hide player inputs based on count
-    for (let i = 1; i <= 4; i++) {
-        const playerInput = document.getElementById(`player${i}-input`);
-        if (i <= playerCount) {
-            playerInput.classList.remove('hidden');
-        } else {
-            playerInput.classList.add('hidden');
-        }
+  // Show/hide player inputs based on count
+  for (let i = 1; i <= 4; i++) {
+    const playerInput = document.getElementById(`player${i}-input`);
+    if (i <= playerCount) {
+      playerInput.classList.remove('hidden');
+    } else {
+      playerInput.classList.add('hidden');
     }
+  }
 
-    // Update opponent containers visibility
-    updateOpponentContainers(playerCount);
+  // Update opponent containers visibility
+  updateOpponentContainers(playerCount);
 }
 
 // Update opponent containers based on player count
-function updateOpponentContainers(playerCount) {
-    const opponents = document.querySelectorAll('.opponent');
+function updateOpponentContainers (playerCount) {
+  const opponents = document.querySelectorAll('.opponent');
 
-    opponents.forEach((opponent, index) => {
-        if (index < playerCount - 1) {
-            opponent.classList.remove('hidden');
-        } else {
-            opponent.classList.add('hidden');
-        }
-    });
+  opponents.forEach((opponent, index) => {
+    if (index < playerCount - 1) {
+      opponent.classList.remove('hidden');
+    } else {
+      opponent.classList.add('hidden');
+    }
+  });
 }
 
 // Setup audio controls
-function setupAudioControls() {
-    // Music toggle
-    musicToggle.addEventListener('click', function() {
-        musicEnabled = !musicEnabled;
-        if (musicEnabled) {
-            backgroundMusic.play();
-            this.classList.remove('muted');
-        } else {
-            backgroundMusic.pause();
-            this.classList.add('muted');
-        }
-    });
+function setupAudioControls () {
+  // Music toggle
+  musicToggle.addEventListener('click', function () {
+    musicEnabled = !musicEnabled;
+    if (musicEnabled) {
+      backgroundMusic.play();
+      this.classList.remove('muted');
+    } else {
+      backgroundMusic.pause();
+      this.classList.add('muted');
+    }
+  });
 
-    // Sound effects toggle
-    soundToggle.addEventListener('click', function() {
-        soundEnabled = !soundEnabled;
-        if (soundEnabled) {
-            this.classList.remove('muted');
-        } else {
-            this.classList.add('muted');
-        }
-    });
+  // Sound effects toggle
+  soundToggle.addEventListener('click', function () {
+    soundEnabled = !soundEnabled;
+    if (soundEnabled) {
+      this.classList.remove('muted');
+    } else {
+      this.classList.add('muted');
+    }
+  });
 }
 
 // Play sound if enabled
-function playSound(sound) {
-    if (soundEnabled) {
-        sound.currentTime = 0;
-        sound.play();
-    }
+function playSound (sound) {
+  if (soundEnabled) {
+    sound.currentTime = 0;
+    sound.play();
+  }
 }
 
 // Select player color during setup
-function selectPlayerColor(colorElement) {
-    const playerInput = colorElement.closest('.player-input');
-    const colorOptions = playerInput.querySelectorAll('.color-option');
+function selectPlayerColor (colorElement) {
+  const playerInput = colorElement.closest('.player-input');
+  const colorOptions = playerInput.querySelectorAll('.color-option');
 
-    // Remove selected class from all options
-    colorOptions.forEach(option => option.classList.remove('selected'));
+  // Remove selected class from all options
+  colorOptions.forEach(option => option.classList.remove('selected'));
 
-    // Add selected class to clicked option
-    colorElement.classList.add('selected');
+  // Add selected class to clicked option
+  colorElement.classList.add('selected');
 
-    // Update available colors for other players
-    updateAvailableColors();
+  // Update available colors for other players
+  updateAvailableColors();
 }
 
 // Update available colors for players
-function updateAvailableColors() {
-    const selectedColors = [];
+function updateAvailableColors () {
+  const selectedColors = [];
 
-    // Get all selected colors
-    document.querySelectorAll('.player-input:not(.hidden) .color-option.selected').forEach(option => {
-        selectedColors.push(option.getAttribute('data-color'));
-    });
+  // Get all selected colors
+  document.querySelectorAll('.player-input:not(.hidden) .color-option.selected').forEach(option => {
+    selectedColors.push(option.getAttribute('data-color'));
+  });
 
-    // Update availability for all color options
-    document.querySelectorAll('.player-input .color-option').forEach(option => {
-        const color = option.getAttribute('data-color');
+  // Update availability for all color options
+  document.querySelectorAll('.player-input .color-option').forEach(option => {
+    const color = option.getAttribute('data-color');
 
-        if (selectedColors.includes(color) && !option.classList.contains('selected')) {
-            option.classList.add('unavailable');
-        } else {
-            option.classList.remove('unavailable');
-        }
-    });
+    if (selectedColors.includes(color) && !option.classList.contains('selected')) {
+      option.classList.add('unavailable');
+    } else {
+      option.classList.remove('unavailable');
+    }
+  });
 }
 
 // Create a new deck of cards
-function createDeck() {
-    const newDeck = [];
-    let cardId = 0;
+function createDeck () {
+  const newDeck = [];
+  let cardId = 0;
 
-    // Add numbered cards (0-9)
-    cardColors.forEach(color => {
-        // Add one 0 card for each color
+  // Add numbered cards (0-9)
+  cardColors.forEach(color => {
+    // Add one 0 card for each color
+    newDeck.push({
+      id: cardId++,
+      color,
+      type: 'number',
+      value: 0,
+      imageUrl: `assets/images/cards/${color}-0.png`
+    });
+
+    // Add two of each number 1-9 for each color
+    cardTypes.number.slice(1).forEach(number => {
+      for (let i = 0; i < 2; i++) {
         newDeck.push({
-            id: cardId++,
-            color: color,
-            type: 'number',
-            value: 0,
-            imageUrl: `assets/images/cards/${color}-0.png`
+          id: cardId++,
+          color,
+          type: 'number',
+          value: number,
+          imageUrl: `assets/images/cards/${color}-${number}.png`
         });
-
-        // Add two of each number 1-9 for each color
-        cardTypes.number.slice(1).forEach(number => {
-            for (let i = 0; i < 2; i++) {
-                newDeck.push({
-                    id: cardId++,
-                    color: color,
-                    type: 'number',
-                    value: number,
-                    imageUrl: `assets/images/cards/${color}-${number}.png`
-                });
-            }
-        });
-
-        // Add action cards (skip, reverse, draw two)
-        cardTypes.action.forEach(action => {
-            for (let i = 0; i < 2; i++) {
-                newDeck.push({
-                    id: cardId++,
-                    color: color,
-                    type: 'action',
-                    value: action,
-                    imageUrl: `assets/images/cards/${color}-${action}.png`
-                });
-            }
-        });
+      }
     });
 
-    // Add wild cards
-    cardTypes.wild.forEach(wild => {
-        for (let i = 0; i < 4; i++) {
-            newDeck.push({
-                id: cardId++,
-                color: null,
-                type: 'wild',
-                value: wild,
-                imageUrl: `assets/images/cards/${wild}.png`
-            });
-        }
+    // Add action cards (skip, reverse, draw two)
+    cardTypes.action.forEach(action => {
+      for (let i = 0; i < 2; i++) {
+        newDeck.push({
+          id: cardId++,
+          color,
+          type: 'action',
+          value: action,
+          imageUrl: `assets/images/cards/${color}-${action}.png`
+        });
+      }
     });
+  });
 
-    return newDeck;
+  // Add wild cards
+  cardTypes.wild.forEach(wild => {
+    for (let i = 0; i < 4; i++) {
+      newDeck.push({
+        id: cardId++,
+        color: null,
+        type: 'wild',
+        value: wild,
+        imageUrl: `assets/images/cards/${wild}.png`
+      });
+    }
+  });
+
+  return newDeck;
 }
 
 // Shuffle the deck using Fisher-Yates algorithm
-function shuffleDeck(deck) {
-    for (let i = deck.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [deck[i], deck[j]] = [deck[j], deck[i]];
-    }
-    return deck;
+function shuffleDeck (deck) {
+  for (let i = deck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [deck[i], deck[j]] = [deck[j], deck[i]];
+  }
+  return deck;
 }
 
 // Deal cards to players
-function dealCards() {
-    // Deal 7 cards to each player
-    for (let i = 0; i < 7; i++) {
-        players.forEach(player => {
-            if (deck.length > 0) {
-                const card = deck.pop();
-                player.hand.push(card);
-            }
-        });
+function dealCards () {
+  // Deal 7 cards to each player
+  for (let i = 0; i < 7; i++) {
+    players.forEach(player => {
+      if (deck.length > 0) {
+        const card = deck.pop();
+        player.hand.push(card);
+      }
+    });
+  }
+
+  // Place first card on discard pile
+  let firstCard;
+  do {
+    firstCard = deck.pop();
+    // If first card is a wild card, put it back and try again
+    if (firstCard.type === 'wild') {
+      deck.unshift(firstCard);
+      firstCard = null;
     }
+  } while (!firstCard);
 
-    // Place first card on discard pile
-    let firstCard;
-    do {
-        firstCard = deck.pop();
-        // If first card is a wild card, put it back and try again
-        if (firstCard.type === 'wild') {
-            deck.unshift(firstCard);
-            firstCard = null;
-        }
-    } while (!firstCard);
+  discardPile.push(firstCard);
+  currentColor = firstCard.color;
 
-    discardPile.push(firstCard);
-    currentColor = firstCard.color;
-
-    // Handle if first card is an action card
-    if (firstCard.type === 'action') {
-        handleActionCard(firstCard, true);
-    }
+  // Handle if first card is an action card
+  if (firstCard.type === 'action') {
+    handleActionCard(firstCard, true);
+  }
 }
 
 // Draw a card from the deck
-function drawCardFromDeck() {
-    // If deck is empty, shuffle discard pile and make it the new deck
-    if (deck.length === 0) {
-        const lastDiscarded = discardPile.pop();
-        deck = shuffleDeck(discardPile);
-        discardPile = [lastDiscarded];
-        playSound(cardShuffleSound);
-    }
+function drawCardFromDeck () {
+  // If deck is empty, shuffle discard pile and make it the new deck
+  if (deck.length === 0) {
+    const lastDiscarded = discardPile.pop();
+    deck = shuffleDeck(discardPile);
+    discardPile = [lastDiscarded];
+    playSound(cardShuffleSound);
+  }
 
-    return deck.pop();
+  return deck.pop();
 }
 
 // Start the game
-function startGame() {
+function startGame () {
   // Get player count
   const playerCount = parseInt(playerCountSelect.value);
 
@@ -316,8 +316,8 @@ function startGame() {
 
     players.push({
       id: i,
-      name: name,
-      color: color,
+      name,
+      color,
       hand: [],
       calledUno: false
     });
@@ -350,10 +350,10 @@ function startGame() {
   // Track game start in Google Analytics
   if (typeof gtag === 'function') {
     gtag('event', 'game_start', {
-      'game_name': 'Uno',
-      'player_count': playerCount,
-      'event_category': 'game',
-      'event_label': 'Uno Game Started'
+      game_name: 'Uno',
+      player_count: playerCount,
+      event_category: 'game',
+      event_label: 'Uno Game Started'
     });
   }
 
@@ -364,7 +364,7 @@ function startGame() {
 }
 
 // Update the game UI
-function updateGameUI() {
+function updateGameUI () {
   // Update player hand
   updatePlayerHand();
 
@@ -388,7 +388,7 @@ function updateGameUI() {
 }
 
 // Update player hand display
-function updatePlayerHand() {
+function updatePlayerHand () {
   // Clear current hand
   playerHand.innerHTML = '';
 
@@ -421,7 +421,7 @@ function updatePlayerHand() {
 }
 
 // Update opponent cards display
-function updateOpponentCards() {
+function updateOpponentCards () {
   // Skip player 1 (human player)
   for (let i = 1; i < players.length; i++) {
     const player = players[i];
@@ -453,7 +453,7 @@ function updateOpponentCards() {
 }
 
 // Update discard pile display
-function updateDiscardPile() {
+function updateDiscardPile () {
   const discardPileElement = document.querySelector('.discard-pile');
   discardPileElement.innerHTML = '';
 
@@ -467,7 +467,7 @@ function updateDiscardPile() {
 }
 
 // Update current player indicator
-function updateCurrentPlayerIndicator() {
+function updateCurrentPlayerIndicator () {
   // Remove highlight from all players
   document.querySelectorAll('.player-info').forEach(info => {
     info.style.boxShadow = 'none';
@@ -487,13 +487,13 @@ function updateCurrentPlayerIndicator() {
 }
 
 // Update color indicator
-function updateColorIndicator() {
+function updateColorIndicator () {
   const colorIndicator = document.querySelector('.color-indicator');
   colorIndicator.style.backgroundColor = currentColor;
 }
 
 // Update direction indicator
-function updateDirectionIndicator() {
+function updateDirectionIndicator () {
   const directionIndicator = document.querySelector('.direction-indicator i');
 
   if (gameDirection === 1) {
@@ -504,7 +504,7 @@ function updateDirectionIndicator() {
 }
 
 // Update game message
-function updateGameMessage() {
+function updateGameMessage () {
   const currentPlayer = players[currentPlayerIndex];
 
   if (currentPlayerIndex === 0) {
@@ -515,7 +515,7 @@ function updateGameMessage() {
 }
 
 // Check if a card can be played
-function canPlayCard(card) {
+function canPlayCard (card) {
   // If it's not the player's turn, they can't play
   if (currentPlayerIndex !== 0) {
     return false;
@@ -542,7 +542,7 @@ function canPlayCard(card) {
 }
 
 // Play a card
-function playCard(card) {
+function playCard (card) {
   // Check if card can be played
   if (!canPlayCard(card)) {
     return;
@@ -600,86 +600,86 @@ function playCard(card) {
     // Track card play in Google Analytics
     if (typeof gtag === 'function') {
       gtag('event', 'card_played', {
-        'game_name': 'Uno',
-        'card_type': playedCard.type,
-        'card_value': playedCard.value,
-        'card_color': playedCard.color,
-        'event_category': 'gameplay',
-        'event_label': 'Card Played'
+        game_name: 'Uno',
+        card_type: playedCard.type,
+        card_value: playedCard.value,
+        card_color: playedCard.color,
+        event_category: 'gameplay',
+        event_label: 'Card Played'
       });
     }
   }
 }
 
 // Handle action cards
-function handleActionCard(card, isFirstCard = false) {
+function handleActionCard (card, isFirstCard = false) {
   let nextPlayerIndex = getNextPlayerIndex();
 
   switch (card.value) {
-    case 'skip':
-      // Skip next player's turn
-      if (!isFirstCard) {
-        gameMessage.textContent = `${players[nextPlayerIndex].name}'s turn is skipped!`;
-        nextPlayer(); // Skip once
-      }
-      break;
+  case 'skip':
+    // Skip next player's turn
+    if (!isFirstCard) {
+      gameMessage.textContent = `${players[nextPlayerIndex].name}'s turn is skipped!`;
+      nextPlayer(); // Skip once
+    }
+    break;
 
-    case 'reverse':
-      // Reverse direction
-      gameDirection *= -1;
+  case 'reverse':
+    // Reverse direction
+    gameDirection *= -1;
 
-      if (players.length === 2 && !isFirstCard) {
-        // In 2-player game, reverse acts like skip
-        nextPlayer();
-      }
-      break;
+    if (players.length === 2 && !isFirstCard) {
+      // In 2-player game, reverse acts like skip
+      nextPlayer();
+    }
+    break;
 
-    case 'draw-two':
-      if (!isFirstCard) {
-        // Next player draws 2 cards
-        const nextPlayer = players[nextPlayerIndex];
+  case 'draw-two':
+    if (!isFirstCard) {
+      // Next player draws 2 cards
+      const nextPlayer = players[nextPlayerIndex];
 
-        for (let i = 0; i < 2; i++) {
-          if (deck.length > 0) {
-            const card = drawCardFromDeck();
-            nextPlayer.hand.push(card);
-            playSound(drawCardSound);
-          }
+      for (let i = 0; i < 2; i++) {
+        if (deck.length > 0) {
+          const card = drawCardFromDeck();
+          nextPlayer.hand.push(card);
+          playSound(drawCardSound);
         }
-
-        gameMessage.textContent = `${nextPlayer.name} draws 2 cards!`;
-
-        // Skip their turn
-        nextPlayerIndex = getNextPlayerIndex();
-        currentPlayerIndex = nextPlayerIndex;
       }
-      break;
 
-    case 'wild-draw-four':
-      if (!isFirstCard) {
-        // Next player draws 4 cards
-        const nextPlayer = players[nextPlayerIndex];
+      gameMessage.textContent = `${nextPlayer.name} draws 2 cards!`;
 
-        for (let i = 0; i < 4; i++) {
-          if (deck.length > 0) {
-            const card = drawCardFromDeck();
-            nextPlayer.hand.push(card);
-            playSound(drawCardSound);
-          }
+      // Skip their turn
+      nextPlayerIndex = getNextPlayerIndex();
+      currentPlayerIndex = nextPlayerIndex;
+    }
+    break;
+
+  case 'wild-draw-four':
+    if (!isFirstCard) {
+      // Next player draws 4 cards
+      const nextPlayer = players[nextPlayerIndex];
+
+      for (let i = 0; i < 4; i++) {
+        if (deck.length > 0) {
+          const card = drawCardFromDeck();
+          nextPlayer.hand.push(card);
+          playSound(drawCardSound);
         }
-
-        gameMessage.textContent = `${nextPlayer.name} draws 4 cards!`;
-
-        // Skip their turn
-        nextPlayerIndex = getNextPlayerIndex();
-        currentPlayerIndex = nextPlayerIndex;
       }
-      break;
+
+      gameMessage.textContent = `${nextPlayer.name} draws 4 cards!`;
+
+      // Skip their turn
+      nextPlayerIndex = getNextPlayerIndex();
+      currentPlayerIndex = nextPlayerIndex;
+    }
+    break;
   }
 }
 
 // Select wild card color
-function selectWildColor(color) {
+function selectWildColor (color) {
   // Set current color
   currentColor = color;
 
@@ -703,16 +703,16 @@ function selectWildColor(color) {
   // Track wild color selection in Google Analytics
   if (typeof gtag === 'function') {
     gtag('event', 'wild_color_selected', {
-      'game_name': 'Uno',
-      'color': color,
-      'event_category': 'gameplay',
-      'event_label': 'Wild Color Selected'
+      game_name: 'Uno',
+      color,
+      event_category: 'gameplay',
+      event_label: 'Wild Color Selected'
     });
   }
 }
 
 // Move to next player
-function nextPlayer() {
+function nextPlayer () {
   // Reset UNO call status for current player
   players[currentPlayerIndex].calledUno = false;
 
@@ -726,12 +726,12 @@ function nextPlayer() {
 }
 
 // Get next player index based on direction
-function getNextPlayerIndex() {
+function getNextPlayerIndex () {
   return (currentPlayerIndex + gameDirection + players.length) % players.length;
 }
 
 // Draw a card (player action)
-function drawCard() {
+function drawCard () {
   // Only allow drawing if it's the player's turn
   if (currentPlayerIndex !== 0 || !gameStarted) {
     return;
@@ -776,7 +776,7 @@ function drawCard() {
 }
 
 // Call UNO
-function callUno() {
+function callUno () {
   // Only allow calling UNO if it's the player's turn and they have 2 cards
   if (currentPlayerIndex !== 0 || players[0].hand.length !== 2 || !gameStarted) {
     return;
@@ -802,7 +802,7 @@ function callUno() {
 }
 
 // AI player turn
-function playAITurn() {
+function playAITurn () {
   if (!gameStarted) return;
 
   const player = players[currentPlayerIndex];
@@ -918,7 +918,7 @@ function playAITurn() {
     // Check if AI has one card left
     if (player.hand.length === 1 && !player.calledUno) {
       player.calledUno = true;
-      gameMessage.textContent += ` and says UNO!`;
+      gameMessage.textContent += ' and says UNO!';
       playSound(unoCallSound);
     }
 
@@ -1000,7 +1000,7 @@ function playAITurn() {
       // Check if AI has one card left
       if (player.hand.length === 1 && !player.calledUno) {
         player.calledUno = true;
-        gameMessage.textContent += ` and says UNO!`;
+        gameMessage.textContent += ' and says UNO!';
         playSound(unoCallSound);
       }
 
@@ -1020,7 +1020,7 @@ function playAITurn() {
 }
 
 // Check if a card can be played by AI
-function canPlayCardAI(card) {
+function canPlayCardAI (card) {
   const topCard = discardPile[discardPile.length - 1];
 
   // Wild cards can always be played
@@ -1042,7 +1042,7 @@ function canPlayCardAI(card) {
 }
 
 // End the game
-function endGame(winner) {
+function endGame (winner) {
   // Set game as not started
   gameStarted = false;
 
@@ -1093,7 +1093,7 @@ function endGame(winner) {
 }
 
 // Create confetti animation
-function createConfetti() {
+function createConfetti () {
   // Clear existing confetti
   confettiContainer.innerHTML = '';
 
@@ -1123,7 +1123,7 @@ function createConfetti() {
 }
 
 // Restart the game
-function restartGame() {
+function restartGame () {
   // Reset game state
   players = [];
   currentPlayerIndex = 0;

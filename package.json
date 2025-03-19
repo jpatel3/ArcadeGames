@@ -9,9 +9,11 @@
     "start:wordexplorer": "serve games/WordExplorer",
     "start:2048": "serve games/2048",
     "start:mathballoons": "serve games/MathBalloons",
+    "start:snake": "serve games/Snake",
     "download-assets:dinosaur": "cd games/DinosaurChase && ./download_assets.sh",
     "download-assets:wordexplorer": "cd games/WordExplorer && ./download-assets.sh",
     "download-assets:mathballoons": "cd games/MathBalloons && ./download-assets.sh",
+    "download-assets:snake": "cd games/Snake && ./download-assets.sh",
     "lint": "eslint . --ext .js",
     "lint:fix": "eslint . --ext .js --fix",
     "validate": "html-validate games/**/index.html"
