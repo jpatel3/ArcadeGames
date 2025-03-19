@@ -1,0 +1,157 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;  /* Prevents scrollbars */
+    height: 100%;     /* Full viewport height */
+    width: 100%;      /* Full viewport width */
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #333;
+    position: fixed;  /* Prevents mobile browser address bar from affecting layout */
+    top: 0;
+    left: 0;
+}
+
+.game-container {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 95%;
+    max-height: 95vh;  /* Prevent container from being too tall */
+    overflow: hidden;  /* Contain all content */
+}
+
+.game-header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+h1 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    font-size: 2.5rem;
+}
+
+.score-container, .high-score-container {
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+    color: #34495e;
+}
+
+#gameCanvas {
+    display: block;
+    background-color: #ecf0f1;
+    border: 2px solid #bdc3c7;
+    border-radius: 8px;
+    margin: 0 auto;
+    max-width: 100%;
+}
+
+.controls {
+    margin-top: 1.5rem;
+    text-align: center;
+}
+
+.mobile-controls {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.horizontal-controls {
+    display: flex;
+    gap: 1rem;
+}
+
+button {
+    padding: 0.8rem 1.5rem;
+    font-size: 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: #3498db;
+    color: white;
+}
+
+button:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+.mobile-controls button {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+    padding: 0;
+}
+
+.start-button {
+    background-color: #2ecc71;
+}
+
+.start-button:hover {
+    background-color: #27ae60;
+}
+
+.pause-button {
+    background-color: #e74c3c;
+    margin-left: 1rem;
+}
+
+.pause-button:hover {
+    background-color: #c0392b;
+}
+
+.game-over {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 2rem;
+    border-radius: 1rem;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.game-over h2 {
+    color: #e74c3c;
+    margin-bottom: 1rem;
+}
+
+.hidden {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-controls {
+        display: flex;
+    }
+
+    .game-container {
+        padding: 1rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+}
