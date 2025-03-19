@@ -1,18 +1,17 @@
-// Import Howl from howler.js
-import { Howl } from 'howler';
+/* global Howl */
 
 class SnakeGame {
   constructor () {
     this.canvas = document.getElementById('gameCanvas');
     this.ctx = this.canvas.getContext('2d');
 
-    // Set canvas size
-    this.canvas.width = 400;
-    this.canvas.height = 400;
+    // Set canvas size based on container
+    this.resizeCanvas();
+    window.addEventListener('resize', () => this.resizeCanvas());
 
     // Game settings
-    this.gridSize = 20;
-    this.tileCount = this.canvas.width / this.gridSize;
+    this.gridSize = Math.floor(this.canvas.width / 20); // Make grid size responsive
+    this.tileCount = 20; // Keep consistent number of tiles
     this.snake = [{ x: 10, y: 10 }];
     this.food = this.generateFood();
     this.direction = 'right';
@@ -28,7 +27,7 @@ class SnakeGame {
     this.gameOverElement = document.getElementById('gameOver');
     this.finalScoreElement = document.getElementById('finalScore');
 
-    // Initialize sounds
+    // Initialize sounds using global Howl
     this.sounds = {
       eat: new Howl({
         src: ['assets/sounds/eat.mp3']
@@ -47,9 +46,30 @@ class SnakeGame {
 
     // Update high score display
     this.highScoreElement.textContent = this.highScore;
+  }
 
-    // Start the game when it's initialized
-    this.startGame();
+  resizeCanvas () {
+    const container = document.querySelector('.game-container');
+    const containerWidth = container.clientWidth;
+    const containerHeight = container.clientHeight;
+    const headerHeight = document.querySelector('.game-header').offsetHeight;
+    const controlsHeight = document.querySelector('.controls').offsetHeight;
+    const padding = 32; // 2rem padding from container
+
+    // Calculate available space
+    const availableWidth = containerWidth - (padding * 2);
+    const availableHeight = containerHeight - headerHeight - controlsHeight - (padding * 2);
+
+    // Set canvas size to maintain aspect ratio and fit container
+    const size = Math.min(availableWidth, availableHeight, 600); // Max size of 600px
+    this.canvas.width = size;
+    this.canvas.height = size;
+    this.gridSize = size / this.tileCount;
+
+    // Redraw if game is in progress
+    if (this.gameLoop) {
+      this.draw();
+    }
   }
 
   setupControls () {

@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Snake Game - Arcade Games Collection</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="../../assets/favicon.ico">
+    <script src="node_modules/howler/dist/howler.min.js"></script>
 </head>
 <body>
     <div class="game-container">
@@ -30,8 +31,10 @@
                 </div>
                 <button id="downBtn">↓</button>
             </div>
-            <button id="startBtn" class="start-button">Start Game</button>
-            <button id="pauseBtn" class="pause-button">Pause</button>
+            <div class="game-buttons">
+                <button id="startBtn" class="start-button">Start Game</button>
+                <button id="pauseBtn" class="pause-button">Pause</button>
+            </div>
         </div>
 
         <div id="gameOver" class="game-over hidden">
@@ -40,7 +43,6 @@
             <button id="restartBtn">Play Again</button>
         </div>
     </div>
-    <script src="node_modules/howler/dist/howler.min.js"></script>
-    <script type="module" src="game.js"></script>
+    <script src="game.js"></script>
 </body>
 </html>

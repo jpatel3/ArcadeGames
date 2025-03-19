@@ -27,29 +27,31 @@ body {
 
 .game-container {
     background-color: white;
-    padding: 2rem;
+    padding: 2.5rem;
     border-radius: 1rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
-    width: 95%;
-    max-height: 95vh;  /* Prevent container from being too tall */
-    overflow: hidden;  /* Contain all content */
+    width: min(900px, 95%); /* Increased from 800px */
+    height: min(800px, 95vh); /* Increased from 700px and 90vh */
+    display: flex;
+    flex-direction: column;
+    gap: 2rem; /* Increased from 1.5rem */
+    margin: auto;
 }
 
 .game-header {
     text-align: center;
-    margin-bottom: 1.5rem;
+    flex-shrink: 0;
 }
 
 h1 {
     color: #2c3e50;
-    margin-bottom: 1rem;
-    font-size: 2.5rem;
+    margin-bottom: 0.5rem; /* Reduced from 1rem */
+    font-size: 2rem; /* Reduced from 2.5rem */
 }
 
 .score-container, .high-score-container {
-    font-size: 1.2rem;
-    margin: 0.5rem 0;
+    font-size: 1.1rem; /* Slightly reduced from 1.2rem */
+    margin: 0.3rem 0; /* Reduced from 0.5rem */
     color: #34495e;
 }
 
@@ -59,12 +61,23 @@ h1 {
     border: 2px solid #bdc3c7;
     border-radius: 8px;
     margin: 0 auto;
-    max-width: 100%;
+    flex-grow: 1;
+    max-height: calc(95vh - 250px); /* Adjusted for new container size */
 }
 
 .controls {
-    margin-top: 1.5rem;
+    flex-shrink: 0;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem; /* Increased from 1rem */
+    padding: 1rem; /* Added padding */
+    background-color: #f8f9fa; /* Light background to create a block effect */
+    border-radius: 0.5rem;
+    width: 100%;
+    max-width: 500px; /* Added max-width */
+    margin: 0 auto;
 }
 
 .mobile-controls {
@@ -72,12 +85,20 @@ h1 {
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
-    margin-bottom: 1rem;
+    width: 100%;
+    max-width: 200px;
 }
 
 .horizontal-controls {
     display: flex;
     gap: 1rem;
+    justify-content: center;
+}
+
+.game-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
 }
 
 button {
@@ -89,6 +110,7 @@ button {
     transition: all 0.3s ease;
     background-color: #3498db;
     color: white;
+    min-width: 120px;
 }
 
 button:hover {
@@ -101,6 +123,7 @@ button:hover {
     height: 60px;
     font-size: 1.5rem;
     padding: 0;
+    min-width: unset;
 }
 
 .start-button {
@@ -113,7 +136,6 @@ button:hover {
 
 .pause-button {
     background-color: #e74c3c;
-    margin-left: 1rem;
 }
 
 .pause-button:hover {
@@ -148,7 +170,12 @@ button:hover {
     }
 
     .game-container {
-        padding: 1rem;
+        padding: 1.5rem; /* Increased from 1rem */
+        height: min(800px, 98vh); /* Adjusted for mobile */
+    }
+
+    .controls {
+        padding: 0.8rem; /* Slightly reduced padding for mobile */
     }
 
     h1 {
