@@ -342,8 +342,3 @@ class SnakeGame {
     this.finalScoreElement.textContent = this.score;
   }
 }
-
-// Initialize game when page loads
-window.addEventListener('load', () => {
-  window.snakeGame = new SnakeGame();
-});
