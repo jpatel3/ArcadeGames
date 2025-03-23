@@ -17,15 +17,22 @@ class SnakeGame {
     this.direction = 'right';
     this.nextDirection = 'right';
     this.score = 0;
+    this.lives = 3; // Initialize with 3 lives
+    this.isInvulnerable = false; // For temporary invulnerability after getting hit
     this.highScore = parseInt(localStorage.getItem('snakeHighScore')) || 0;
     this.gameLoop = null;
     this.isPaused = false;
+
+    // Initialize heart image
+    this.heartImage = new Image();
+    this.heartImage.src = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJyZWQiPjxwYXRoIGQ9Ik0xMiAyMS4zNWwtMS40NS0xLjMyQzUuNCAxNS4zNiAyIDEyLjI4IDIgOC41IDIgNS40MiA0LjQyIDMgNy41IDNjMS43NCAwIDMuNDEuODEgNC41IDIuMDlDMTMuMDkgMy44MSAxNC43NiAzIDE2LjUgMyAxOS41OCAzIDIyIDUuNDIgMjIgOC41YzAgMy43OC0zLjQgNi44Ni04LjU1IDExLjU0TDEyIDIxLjM1eiIvPjwvc3ZnPg==';
 
     // Initialize UI elements
     this.scoreElement = document.getElementById('score');
     this.highScoreElement = document.getElementById('highScore');
     this.gameOverElement = document.getElementById('gameOver');
     this.finalScoreElement = document.getElementById('finalScore');
+    this.gameOverElement.classList.add('hidden'); // Initialize with hidden class
 
     // Initialize sounds using global Howl
     this.sounds = {
@@ -149,33 +156,70 @@ class SnakeGame {
     case 'right': head.x++; break;
     }
 
-    // Check for collisions
-    if (this.checkCollision(head)) {
-      this.gameOver();
+    // Check for collisions before clamping
+    const hitWall = head.x < 0 || head.x >= this.tileCount || head.y < 0 || head.y >= this.tileCount;
+    if (hitWall) {
+      // Keep snake at the last valid position
+      head.x = Math.max(0, Math.min(head.x, this.tileCount - 1));
+      head.y = Math.max(0, Math.min(head.y, this.tileCount - 1));
+      // Update snake's head position at the border
+      this.snake[0] = { ...head };
+      this.handleCollision();
       return;
     }
 
-    this.snake.unshift(head);
+    // Check for self collision
+    const selfCollision = this.snake.some((segment, index) =>
+      index > 0 && segment.x === head.x && segment.y === head.y
+    );
 
-    // Check if snake ate food
-    if (head.x === this.food.x && head.y === this.food.y) {
-      this.score += 10;
-      this.scoreElement.textContent = this.score;
-      this.food = this.generateFood();
-      this.sounds.eat.play();
-    } else {
-      this.snake.pop();
+    if (selfCollision) {
+      this.handleCollision();
+      return;
+    }
+
+    // If we reach here, no collision occurred or we're invulnerable
+    if (!this.isInvulnerable) {
+      // Check if snake ate food
+      const ateFood = head.x === this.food.x && head.y === this.food.y;
+
+      if (ateFood) {
+        // Add new head without removing tail for growth
+        this.snake.unshift({ ...head });
+        this.score += 10;
+        this.scoreElement.textContent = this.score;
+        this.food = this.generateFood();
+        this.sounds.eat.play();
+      } else {
+        // Normal movement: add head and remove tail
+        this.snake.unshift({ ...head });
+        this.snake.pop();
+      }
     }
   }
 
-  checkCollision (head) {
-    // Wall collision
-    if (head.x < 0 || head.x >= this.tileCount || head.y < 0 || head.y >= this.tileCount) {
+  handleCollision () {
+    if (this.isInvulnerable) {
+      return false;
+    }
+
+    this.lives--;
+    if (this.lives <= 0) {
+      this.gameOver();
       return true;
     }
 
-    // Self collision
-    return this.snake.some(segment => segment.x === head.x && segment.y === head.y);
+    // Make snake invulnerable for 2 seconds
+    this.isInvulnerable = true;
+    setTimeout(() => {
+      this.isInvulnerable = false;
+      // Reset snake position after invulnerability ends
+      this.snake = [{ x: 10, y: 10 }];
+      this.direction = 'right';
+      this.nextDirection = 'right';
+    }, 2000);
+
+    return false;
   }
 
   draw () {
@@ -183,56 +227,64 @@ class SnakeGame {
     this.ctx.fillStyle = '#ecf0f1';
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
 
-    // Draw snake
-    this.ctx.fillStyle = '#2ecc71';
-    this.snake.forEach((segment, index) => {
-      this.ctx.fillRect(
-        segment.x * this.gridSize,
-        segment.y * this.gridSize,
-        this.gridSize - 2,
-        this.gridSize - 2
+    // Draw lives
+    const heartSize = 30;
+    const padding = 10;
+    for (let i = 0; i < this.lives; i++) {
+      this.ctx.drawImage(
+        this.heartImage,
+        this.canvas.width - (heartSize + padding) * (i + 1),
+        padding,
+        heartSize,
+        heartSize
       );
+    }
 
-      // Draw snake eyes on head
-      if (index === 0) {
-        this.ctx.fillStyle = '#000';
-        const eyeSize = 4;
-        let leftEye, rightEye;
+    // Make snake blink when invulnerable
+    if (!this.isInvulnerable || Math.floor(Date.now() / 100) % 2) {
+      // Draw snake
+      this.ctx.fillStyle = '#2ecc71';
+      this.snake.forEach((segment, index) => {
+        // Calculate position with 1px gap
+        const gap = 1;
+        const x = segment.x * this.gridSize + gap;
+        const y = segment.y * this.gridSize + gap;
+        const size = this.gridSize - (gap * 2);
 
-        // Position eyes based on direction
-        switch (this.direction) {
-        case 'right':
-          leftEye = { x: 14, y: 6 };
-          rightEye = { x: 14, y: 12 };
-          break;
-        case 'left':
-          leftEye = { x: 4, y: 6 };
-          rightEye = { x: 4, y: 12 };
-          break;
-        case 'up':
-          leftEye = { x: 6, y: 4 };
-          rightEye = { x: 12, y: 4 };
-          break;
-        case 'down':
-          leftEye = { x: 6, y: 14 };
-          rightEye = { x: 12, y: 14 };
-          break;
+        // Draw snake segment
+        this.ctx.fillRect(x, y, size, size);
+
+        // Draw snake eyes on head
+        if (index === 0) {
+          this.ctx.fillStyle = '#000';
+          const eyeSize = 4;
+          let leftEye, rightEye;
+
+          // Position eyes based on direction
+          switch (this.direction) {
+          case 'right':
+            leftEye = { x: x + size - 6, y: y + 6 };
+            rightEye = { x: x + size - 6, y: y + size - 10 };
+            break;
+          case 'left':
+            leftEye = { x: x + 4, y: y + 6 };
+            rightEye = { x: x + 4, y: y + size - 10 };
+            break;
+          case 'up':
+            leftEye = { x: x + 6, y: y + 4 };
+            rightEye = { x: x + size - 10, y: y + 4 };
+            break;
+          case 'down':
+            leftEye = { x: x + 6, y: y + size - 6 };
+            rightEye = { x: x + size - 10, y: y + size - 6 };
+            break;
+          }
+
+          this.ctx.fillRect(leftEye.x, leftEye.y, eyeSize, eyeSize);
+          this.ctx.fillRect(rightEye.x, rightEye.y, eyeSize, eyeSize);
         }
-
-        this.ctx.fillRect(
-          segment.x * this.gridSize + leftEye.x,
-          segment.y * this.gridSize + leftEye.y,
-          eyeSize,
-          eyeSize
-        );
-        this.ctx.fillRect(
-          segment.x * this.gridSize + rightEye.x,
-          segment.y * this.gridSize + rightEye.y,
-          eyeSize,
-          eyeSize
-        );
-      }
-    });
+      });
+    }
 
     // Draw food
     this.ctx.fillStyle = '#e74c3c';
@@ -253,25 +305,21 @@ class SnakeGame {
     this.direction = 'right';
     this.nextDirection = 'right';
     this.score = 0;
+    this.lives = 3;
+    this.isInvulnerable = false;
     this.scoreElement.textContent = '0';
-    this.food = this.generateFood();
-    this.isPaused = false;
-
-    // Hide game over screen
     this.gameOverElement.classList.add('hidden');
 
-    // Clear existing game loop if any
     if (this.gameLoop) {
       clearInterval(this.gameLoop);
     }
 
-    // Start new game loop with slower speed (200ms instead of 100ms)
     this.gameLoop = setInterval(() => {
       if (!this.isPaused) {
         this.moveSnake();
         this.draw();
       }
-    }, 200);
+    }, 200); // Slower speed: changed from 100ms to 200ms
   }
 
   togglePause () {
@@ -280,20 +328,18 @@ class SnakeGame {
   }
 
   gameOver () {
+    this.sounds.gameOver.play();
     clearInterval(this.gameLoop);
     this.gameLoop = null;
-    this.sounds.gameOver.play();
 
-    // Update high score
     if (this.score > this.highScore) {
       this.highScore = this.score;
-      this.highScoreElement.textContent = this.highScore;
       localStorage.setItem('snakeHighScore', this.highScore);
+      this.highScoreElement.textContent = this.highScore;
     }
 
-    // Show game over screen
-    this.finalScoreElement.textContent = this.score;
     this.gameOverElement.classList.remove('hidden');
+    this.finalScoreElement.textContent = this.score;
   }
 }
 
